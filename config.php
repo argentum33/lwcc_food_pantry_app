@@ -25,7 +25,7 @@
  * file because the old "configuration.php" is not used anymore.
  */
  
-// testing git commit one more time
+// testing local branch
 class Config {
     // ------------------------------------------------------------------------
     // General Settings
