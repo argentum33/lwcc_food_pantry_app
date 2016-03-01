@@ -25,22 +25,22 @@
  * file because the old "configuration.php" is not used anymore.
  */
  
-// finally testing with svn
+// final test for svn to send to cloud9 display
 class Config {
     // ------------------------------------------------------------------------
     // General Settings
     // ------------------------------------------------------------------------
-    const BASE_URL      = 'http://javascript-test-argentum33.c9users.io'; // I think this is normally http://localhost
+    const BASE_URL      = 'http://localhost/easy_appointments_dir/trunk'; // I think this is normally http://localhost
     const LANGUAGE      = 'english';
     const DEBUG_MODE    = FALSE;
 
     // ------------------------------------------------------------------------
     // Database Settings
     // ------------------------------------------------------------------------
-    const DB_HOST       = '0.0.0.0'; // I think this would normally be localhost
-    const DB_NAME       = 'c9'; // your database name
+    const DB_HOST       = '127.0.0.1'; // I think this would normally be localhost
+    const DB_NAME       = 'easyappointments'; // your database name
     const DB_USERNAME   = 'argentum33'; // database username
-    const DB_PASSWORD   = ''; // my database has no password
+    const DB_PASSWORD   = 'qwerty1'; // my database has no password
 
     // ------------------------------------------------------------------------
     // Google Calendar Sync
