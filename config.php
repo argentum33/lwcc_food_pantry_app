@@ -25,7 +25,7 @@
  * file because the old "configuration.php" is not used anymore.
  */
  
-// testing git local branch
+// finally testing with svn
 class Config {
     // ------------------------------------------------------------------------
     // General Settings
