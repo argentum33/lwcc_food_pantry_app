@@ -198,6 +198,7 @@ var BackendCalendar = {
 
             $dialog.find('.modal-header h3').text(EALang['edit_appointment_title']);
             $dialog.find('#appointment-id').val(appointment['id']);
+            $dialog.find('#status-id').val(appointment['status']['id']);
             $dialog.find('#select-service').val(appointment['id_services']).change();
             $dialog.find('#select-provider').val(appointment['id_users_provider']);
 
@@ -221,6 +222,10 @@ var BackendCalendar = {
             $dialog.find('#zip-code').val(customer['zip_code']);
             $dialog.find('#appointment-notes').val(appointment['notes']);
             $dialog.find('#customer-notes').val(customer['notes']);
+            $dialog.find('#customer-status').val(EALang[customer['status']]);
+            $dialog.find('#customer-status-value').val(customer['status']);
+            
+            
 
             $dialog.modal('show');
         }
@@ -376,6 +381,7 @@ var BackendCalendar = {
                 // :: APPLY APPOINTMENT DATA AND SHOW TO MODAL DIALOG
                 $dialog.find('.modal-header h3').text(EALang['edit_appointment_title']);
                 $dialog.find('#appointment-id').val(appointment['id']);
+                $dialog.find('#status-id').val(appointment['status']['id']);
                 $dialog.find('#select-service').val(appointment['id_services']).trigger('change');
                 $dialog.find('#select-provider').val(appointment['id_users_provider']);
                 $dialog.find('#app-status').val(appointment['status']['status']);
@@ -403,6 +409,10 @@ var BackendCalendar = {
                 $dialog.find('#zip-code').val(customer['zip_code']);
                 $dialog.find('#appointment-notes').val(appointment['notes']);
                 $dialog.find('#customer-notes').val(customer['notes']);
+                $dialog.find('#customer-status').val(EALang[customer['status']]);
+                $dialog.find('#customer-status-value').val(customer['status']);
+                
+                
             } else {
                 var unavailable = BackendCalendar.lastFocusedEventData.data;
 
@@ -566,9 +576,9 @@ var BackendCalendar = {
             				
             			};
             
-            if ($dialog.find('#appointment_status-id').val() !== '') {
+            if ($dialog.find('#status-id').val() !== '') {
                 // Set the id value, only if we are editing an appointment.
-                status['id'] = $dialog.find('#appointment_status-id').val();
+                status['id'] = $dialog.find('#status-id').val();
             }
             
 
@@ -929,6 +939,10 @@ var BackendCalendar = {
                     $('#city').val(c.city);
                     $('#zip-code').val(c.zip_code);
                     $('#customer-notes').val(c.notes);
+                    $('#customer-status').val(EALang[c.status]);
+                    $('#customer-status-value').val(c.status);
+                    
+                    
                     return false;
                 }
             });
@@ -997,7 +1011,7 @@ var BackendCalendar = {
          */
         $('#new-customer').click(function() {
             $('#manage-appointment').find('#customer-id, #first-name, #last-name, #email, '
-                    + '#phone-number, #address, #city, #zip-code, #customer-notes').val('');
+                    + '#phone-number, #address, #city, #zip-code, #customer-notes, #customer-status, #customer-status-value').val('');
         });
 
         /**
@@ -1305,6 +1319,25 @@ var BackendCalendar = {
                 //BackendCalendar.convertTitlesToHtml();
             }
         }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
+        
+        postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_get_customers';
+        postData = {
+            'csrfToken': GlobalVariables.csrfToken
+        };
+        
+        
+        $.post(postUrl, postData, function(response) {
+            ////////////////////////////////////////////////////////////////////
+            console.log('Refresh Calendar Appointments Response :', response);
+            ////////////////////////////////////////////////////////////////////
+
+            if (!GeneralFunctions.handleAjaxExceptions(response)) return;
+            
+            
+            GlobalVariables.customers = response;
+            
+        }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
+        
     },
 
     /**
@@ -1468,7 +1501,7 @@ var BackendCalendar = {
             };
 
             // :: UPDATE APPOINTMENT DATA VIA AJAX CALL
-            BackendCalendar.saveAppointment(appointment, undefined,
+            BackendCalendar.saveAppointment(appointment, undefined, appointment['status']['status'],
                     successCallback, undefined);
         } else {
             // :: UPDATE UNAVAILABLE TIME PERIOD
@@ -1755,7 +1788,7 @@ var BackendCalendar = {
             };
 
             // :: UPDATE APPOINTMENT DATA VIA AJAX CALL
-            BackendCalendar.saveAppointment(appointment, undefined,
+            BackendCalendar.saveAppointment(appointment, undefined, appointment['status']['status'],
                     successCallback, undefined);
         } else {
             // :: UPDATE UNAVAILABLE TIME PERIOD
@@ -2026,6 +2059,11 @@ var BackendCalendar = {
         try {
             // :: CHECK REQUIRED FIELDS
             var missingRequiredField = false;
+            
+            if(($dialog.find('#appointment-id').val() === '') && ($dialog.find('#customer-status-value').val() === 'locked')) {
+            	throw EALang['locked_message'];
+            }
+            
             $dialog.find('.required').each(function() {
                 if ($(this).val() == '' || $(this).val() == null) {
                     $(this).parents('.form-group').addClass('has-error');
@@ -2054,6 +2092,8 @@ var BackendCalendar = {
             return true;
         } catch(exc) {
             $dialog.find('.modal-message').addClass('alert-danger').text(exc).removeClass('hidden');
+            $dialog.find('.modal-message').removeAttr("style");
+            
             return false;
         }
     },

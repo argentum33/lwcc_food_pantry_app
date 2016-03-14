@@ -92,7 +92,8 @@ class Backend_api extends CI_Controller {
                 $appointment['provider'] = $this->providers_model->get_row($appointment['id_users_provider']);
                 $appointment['service'] = $this->services_model->get_row($appointment['id_services']);
                 $appointment['customer'] = $this->customers_model->get_row($appointment['id_users_customer']);
-                $appointment['status'] = $this->appointment_status_model->get_row_by_unique($appointment['id'], $appointment['id_users_customer']);
+                $appointment['customer']['status'] = ($this->appointment_status_model->get_missed_appointments($appointment['id_users_customer']) < 3) ? 'unlocked' : 'locked';
+                $appointment['status'] = $this->appointment_status_model->get_row_by_unique($appointment['id'], $appointment['id_users_customer']);                
                 
             }
 
@@ -173,7 +174,7 @@ class Backend_api extends CI_Controller {
                 $status = json_decode(stripcslashes($_POST['status_data']), true);            	
             	$status['ea_appointment_id'] = $appointment['id'];
             	$status['ea_user_id'] = $customer['id'];
-                $manage_mode = isset($appointment['id']);
+                $manage_mode = isset($status['id']);
             	
             	$status['id'] = $this->appointment_status_model->add($status);
             	
@@ -409,6 +410,23 @@ class Backend_api extends CI_Controller {
                 'exceptions' => array(exceptionToJavaScript($exc))
             ));
         }
+    }
+    
+    public function ajax_get_customers() {
+    	$this->load->model('customers_model');
+    	$this->load->model('appointment_status_model');
+    	
+    	$customers = $this->customers_model->get_batch();
+    	
+    	foreach ($customers as &$customerRow) {
+        	$customerRow['status'] = ($this->appointment_status_model->get_missed_appointments($customerRow['id']) < 3) ? 'unlocked' : 'locked';
+        
+        }
+        
+        echo json_encode($customers);
+        
+    
+    
     }
 
     /**

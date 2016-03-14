@@ -26,6 +26,11 @@ $lang['step_four_title'] = 'Confirm Appointment';
 $lang['scheduled'] = 'Scheduled';
 $lang['missed'] = 'Missed';
 $lang['attended'] = 'Attended';
+$lang['customer_status'] = 'Customer Status';
+$lang['locked'] = 'Locked';
+$lang['unlocked'] = 'Unlocked';
+$lang['locked_message'] = 'This customer has missed more than 3 appointments!';
+
 
 
 

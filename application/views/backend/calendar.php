@@ -115,7 +115,7 @@
                             <legend><?php echo $this->lang->line('appointment_details_title'); ?></legend>
 
                             <input id="appointment-id" type="hidden" />
-                            <input id="appointment_status-id" type="hidden" />
+                            <input id="status-id" type="hidden" />
                             
 
                             <div class="form-group">
@@ -237,6 +237,8 @@
                             </legend>
 
                             <input id="customer-id" type="hidden" />
+                            <input id="customer-status-value" type="hidden" />
+                            
 
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -268,6 +270,12 @@
                                         <?php echo $this->lang->line('phone_number'); ?>*</label>
                                     <div class="col-sm-8">
                                         <input type="text" id="phone-number" class="required form-control" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                	<label for="customer-status" class="control-label col-sm-3" ><?php echo $this->lang->line('customer_status'); ?></label>
+                                	<div class="col-md-7">
+                                    	<input type="text" id="customer-status" readonly/>
                                     </div>
                                 </div>
                             </div>

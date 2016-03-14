@@ -287,6 +287,7 @@ class Appointment_Status_Model extends CI_Model {
      * the query to be executed. DO NOT INCLUDE 'WHERE' KEYWORD.
      * @return array Returns the rows from the database.
      */
+     /*
     public function get_batch($where_clause = '') {
         $customers_role_id = $this->get_customers_role_id();
 
@@ -298,15 +299,23 @@ class Appointment_Status_Model extends CI_Model {
 
         return $this->db->get('ea_users')->result_array();
     }
+    */
+    
+    public function get_missed_appointments($user_id) {
+    
+    	// get missed appointment records
+        $result = $this->db
+                ->select('appointment_status.id')
+                ->from('appointment_status')
+                ->where('appointment_status.status', 'missed')
+                ->where('appointment_status.ea_user_id', $user_id)
+                ->get();
 
-    /**
-     * Get the customers role id from the database.
-     *
-     * @return int Returns the role id for the customer records.
-     */
-    public function get_customers_role_id() {
-        return $this->db->get_where('ea_roles', array('slug' => DB_SLUG_CUSTOMER))->row()->id;
+
+        return $result->num_rows();
+    
     }
+
 }
 
 /* End of file customers_model.php */

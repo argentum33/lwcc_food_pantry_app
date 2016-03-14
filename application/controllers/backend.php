@@ -53,6 +53,8 @@ class Backend extends CI_Controller {
         $this->load->model('roles_model');
         $this->load->model('user_model');
         $this->load->model('secretaries_model');
+        $this->load->model('appointment_status_model');
+        
 
         $view['base_url'] = $this->config->item('base_url');
         $view['user_display_name'] = $this->user_model->get_user_display_name($this->session->userdata('user_id'));
@@ -63,6 +65,15 @@ class Backend extends CI_Controller {
         $view['available_providers'] = $this->providers_model->get_available_providers();
         $view['available_services'] = $this->services_model->get_available_services();
         $view['customers'] = $this->customers_model->get_batch();
+        
+        
+        foreach ($view['customers'] as &$customerRow) {
+        	$customerRow['status'] = ($this->appointment_status_model->get_missed_appointments($customerRow['id']) < 3) ? 'unlocked' : 'locked';
+        
+        }
+        
+        
+        
         $this->set_user_data($view);
 
         if ($this->session->userdata('role_slug') == DB_SLUG_SECRETARY) {
