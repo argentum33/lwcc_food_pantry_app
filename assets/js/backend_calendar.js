@@ -208,7 +208,7 @@ var BackendCalendar = {
 
             var endDatetime = Date.parseExact(appointment['end_datetime'],
                     'yyyy-MM-dd HH:mm:ss');
-            $dialog.find('#end-datetime').val(GeneralFunctions.formatDate(endDatetime, GlobalVariables.dateFormat, true));
+            $dialog.find('#end-datetime').val(GeneralFunctions.formatDate(endDatetime, GlobalVariables.dateFormat, true));            
 
             var customer = appointment['customer'];
             $dialog.find('#customer-id').val(appointment['id_users_customer']);
@@ -378,6 +378,8 @@ var BackendCalendar = {
                 $dialog.find('#appointment-id').val(appointment['id']);
                 $dialog.find('#select-service').val(appointment['id_services']).trigger('change');
                 $dialog.find('#select-provider').val(appointment['id_users_provider']);
+                $dialog.find('#app-status').val(appointment['status']['status']);
+                
 
                 // Set the start and end datetime of the appointment.
                 var startDatetime = Date.parseExact(appointment['start_datetime'],
@@ -557,6 +559,18 @@ var BackendCalendar = {
                 // Set the id value, only if we are editing an appointment.
                 appointment['id'] = $dialog.find('#appointment-id').val();
             }
+            
+            var status = {
+            
+            				'status' : $dialog.find('#app-status').val()
+            				
+            			};
+            
+            if ($dialog.find('#appointment_status-id').val() !== '') {
+                // Set the id value, only if we are editing an appointment.
+                status['id'] = $dialog.find('#appointment_status-id').val();
+            }
+            
 
             var customer = {
                 'first_name': $dialog.find('#first-name').val(),
@@ -605,7 +619,7 @@ var BackendCalendar = {
             };
 
             // :: CALL THE UPDATE APPOINTMENT METHOD
-            BackendCalendar.saveAppointment(appointment, customer,
+            BackendCalendar.saveAppointment(appointment, customer, status,
                     successCallback, errorCallback);
         });
 
@@ -838,6 +852,8 @@ var BackendCalendar = {
             $dialog.find('#start-datetime').val(GeneralFunctions.formatDate(start, GlobalVariables.dateFormat, true));
             $dialog.find('#end-datetime').val(GeneralFunctions.formatDate(start.addMinutes(serviceDuration),
                     GlobalVariables.dateFormat, true));
+                    
+            $dialog.find('#app-status').val('scheduled');
 
             // Display modal form.
             $dialog.find('.modal-header h3').text(EALang['new_appointment_title']);
@@ -1065,7 +1081,8 @@ var BackendCalendar = {
                     'start': appointment['start_datetime'],
                     'end': appointment['end_datetime'],
                     'allDay': false,
-                    'data': appointment // Store appointment data for later use.
+                    'data': appointment, // Store appointment data for later use.
+                    'status': appointment['status']['status']
                 };
 
                 calendarEvents.push(event);
@@ -1303,7 +1320,7 @@ var BackendCalendar = {
      * @param {function} errorCallback (OPTIONAL) If defined, this function is
      * going to be executed on post failure.
      */
-    saveAppointment: function(appointment, customer, successCallback, errorCallback) {
+    saveAppointment: function(appointment, customer, status, successCallback, errorCallback) {
         var postUrl = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_appointment';
 
         var postData = {
@@ -1313,6 +1330,10 @@ var BackendCalendar = {
 
         if (customer !== undefined) {
             postData['customer_data'] = JSON.stringify(customer);
+        }
+        
+        if(status !== undefined) {
+        	postData['status_data'] = JSON.stringify(status);
         }
 
         $.ajax({
@@ -1607,6 +1628,9 @@ var BackendCalendar = {
                     '<strong>' + EALang['customer'] + '</strong> '
                         + event.data['customer']['first_name'] + ' '
                         + event.data['customer']['last_name']
+                        + '<br>' +
+                    '<strong>' + EALang['app_status'] + '</strong> '
+                        + EALang[event.data['status']['status']]
                         + '<hr>' +
                     '<center>' +
                         '<button class="edit-popover btn btn-primary ' + displayEdit + '">' + EALang['edit'] + '</button>' +

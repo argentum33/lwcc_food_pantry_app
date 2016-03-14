@@ -22,6 +22,13 @@ $lang['zip_code'] = 'Zip Code';
 $lang['notes'] = 'Notes';
 $lang['fields_are_required'] = 'Fields with * are required!';
 $lang['step_four_title'] = 'Confirm Appointment';
+
+$lang['scheduled'] = 'Scheduled';
+$lang['missed'] = 'Missed';
+$lang['attended'] = 'Attended';
+
+
+
 $lang['confirm'] = 'Confirm';
 $lang['update'] = 'Update';
 $lang['cancel_appointment_hint'] = 'Press the "Cancel" button to remove the appointment from the company schedule.';
@@ -219,6 +226,7 @@ $lang['no_provileges_message'] = 'You do not have the required privileges to vie
 $lang['backend_calendar'] = 'Backend Calendar';
 $lang['start_date_time'] = 'Start Date / Time';
 $lang['end_date_time'] = 'End Date / Time';
+$lang['app_status'] = 'Status';
 $lang['licensed_under'] = 'Licensed Under';
 $lang['unexpected_issues_occurred'] = 'Unexpected issues occurred!';
 $lang['service_communication_error'] = 'A server communication error occurred, please try again.';

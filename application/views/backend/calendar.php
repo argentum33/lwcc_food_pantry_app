@@ -115,6 +115,8 @@
                             <legend><?php echo $this->lang->line('appointment_details_title'); ?></legend>
 
                             <input id="appointment-id" type="hidden" />
+                            <input id="appointment_status-id" type="hidden" />
+                            
 
                             <div class="form-group">
                                 <label for="select-service" class="col-sm-3 control-label"><?php echo $this->lang->line('service'); ?> *</label>
@@ -195,6 +197,17 @@
                                 <label for="end-datetime" class="control-label col-sm-3" ><?php echo $this->lang->line('end_date_time'); ?></label>
                                 <div class="col-sm-7">
                                     <input type="text" id="end-datetime" />
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="app-status" class="control-label col-sm-3" ><?php echo $this->lang->line('app_status'); ?></label>
+                                <div class="col-md-7">
+                                    <select type="text" id="app-status" class="form-control">
+                                    	<option value='scheduled' selected="selected"><?php echo $this->lang->line('scheduled'); ?></option>
+                                    	<option value='missed'><?php echo $this->lang->line('missed'); ?></option>
+                                    	<option value='attended'><?php echo $this->lang->line('attended'); ?></option>
+                                    </select>
                                 </div>
                             </div>
 

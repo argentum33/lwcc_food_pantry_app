@@ -68,6 +68,9 @@ class Backend_api extends CI_Controller {
             $this->load->model('providers_model');
             $this->load->model('services_model');
             $this->load->model('customers_model');
+            $this->load->model('appointment_status_model');
+            
+            
 
             if ($_POST['filter_type'] == FILTER_TYPE_PROVIDER) {
                 $where_id = 'id_users_provider';
@@ -89,6 +92,8 @@ class Backend_api extends CI_Controller {
                 $appointment['provider'] = $this->providers_model->get_row($appointment['id_users_provider']);
                 $appointment['service'] = $this->services_model->get_row($appointment['id_services']);
                 $appointment['customer'] = $this->customers_model->get_row($appointment['id_users_customer']);
+                $appointment['status'] = $this->appointment_status_model->get_row_by_unique($appointment['id'], $appointment['id_users_customer']);
+                
             }
 
             // Get unavailable periods (only for provider).
@@ -117,6 +122,8 @@ class Backend_api extends CI_Controller {
      *
      * @param array $_POST['appointment_data'] (OPTIONAL) Array with the appointment data.
      * @param array $_POST['customer_data'] (OPTIONAL) Array with the customer data.
+     * @param array $_POST['status_data'] (OPTIONAL) Array with the customer data.
+     
      */
     public function ajax_save_appointment() {
         try {
@@ -124,6 +131,7 @@ class Backend_api extends CI_Controller {
         	$this->load->model('providers_model');
         	$this->load->model('services_model');
         	$this->load->model('customers_model');
+        	$this->load->model('appointment_status_model');
         	$this->load->model('settings_model');
 
             // :: SAVE CUSTOMER CHANGES TO DATABASE
@@ -160,11 +168,23 @@ class Backend_api extends CI_Controller {
 
                 $appointment['id'] = $this->appointments_model->add($appointment);
             }
+            
+            if (isset($_POST['status_data'])) {
+                $status = json_decode(stripcslashes($_POST['status_data']), true);            	
+            	$status['ea_appointment_id'] = $appointment['id'];
+            	$status['ea_user_id'] = $customer['id'];
+                $manage_mode = isset($appointment['id']);
+            	
+            	$status['id'] = $this->appointment_status_model->add($status);
+            	
+            }
+            
+            
 
             $appointment = $this->appointments_model->get_row($appointment['id']);
             $provider = $this->providers_model->get_row($appointment['id_users_provider']);
             $customer = $this->customers_model->get_row($appointment['id_users_customer']);
-            $service = $this->services_model->get_row($appointment['id_services']);
+            $service = $this->services_model->get_row($appointment['id_services']);            
 
             $company_settings = array(
             	'company_name' => $this->settings_model->get_setting('company_name'),

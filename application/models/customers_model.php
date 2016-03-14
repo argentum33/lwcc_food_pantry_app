@@ -321,6 +321,21 @@ class Customers_Model extends CI_Model {
     public function get_customers_role_id() {
         return $this->db->get_where('ea_roles', array('slug' => DB_SLUG_CUSTOMER))->row()->id;
     }
+    
+    
+    /**
+     * 
+     *
+     */
+     /*
+    public function check_customer_lock() {
+    
+    	$num_rows = $this->db->get_where('appointment_status', array('id' => $customer_id))->num_rows();
+    	
+    	return $this
+    }
+    */
+    
 }
 
 /* End of file customers_model.php */
