@@ -291,6 +291,20 @@ SystemSettings.prototype.get = function() {
         'name': 'book_advance_timeout',
         'value': $('#book-advance-timeout').val()
     });
+    settings.push({
+        'name': 'missed_app_num',
+        'value': $('#missed-app-num').val()
+    });
+    
+    settings.push({
+        'name': 'missed_app_timeframe',
+        'value': $('#missed-app-timeframe').val()
+    });
+    
+    settings.push({
+        'name': 'app_probation',
+        'value': $('#app-probation').val()
+    });
 
     return settings;
 };

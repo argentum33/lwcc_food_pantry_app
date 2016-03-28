@@ -27,11 +27,15 @@ $lang['scheduled'] = 'Scheduled';
 $lang['missed'] = 'Missed';
 $lang['attended'] = 'Attended';
 $lang['customer_status'] = 'Customer Status';
+$lang['missed_appointments_limit'] = 'Missed Appointments Limit';
+$lang['app_probation'] = "Appointment Probation Period (Months)";
+$lang['missed_app_timeframe'] = "Missed Appointments Time Frame (Months)";
 $lang['locked'] = 'Locked';
 $lang['unlocked'] = 'Unlocked';
 $lang['locked_message'] = 'This customer has missed more than 3 appointments!';
 
-
+$lang['locked_message1'] = 'This customer has missed ';
+$lang['locked_message2'] = ' appointments!';
 
 
 $lang['confirm'] = 'Confirm';
@@ -163,6 +167,7 @@ $lang['friday'] = 'Friday';
 $lang['saturday'] = 'Saturday';
 $lang['sunday'] = 'Sunday';
 $lang['breaks'] = 'Breaks';
+$lang['appointment_settings'] = 'Appointment Settings';
 $lang['add_breaks_during_each_day'] = 'Add the working breaks during each day. During breaks the provider will not accept any appointments.';
 $lang['day'] = 'Day';
 $lang['actions'] = 'Actions';
@@ -181,6 +186,7 @@ $lang['current_user'] = 'Current User';
 $lang['about_ea'] = 'About E!A';
 $lang['edit_working_plan_hint'] = 'Mark below the days and hours that your company will accept appointments. You will be able to adjust appointments in non working hours but the customers will not be able to book appointments by themselves in non working periods. This working plan will be the default for every new provider record but you will be able to change each provider\'s plan separately by editing his record. After that you can add break periods.';
 $lang['edit_breaks_hint'] = 'Add the working breaks during each day. These breaks will be applied for all new providers.';
+$lang['edit_appointments_hint'] = 'Change the settings for appointments features.';
 $lang['book_advance_timeout'] = 'Book Advance Timeout';
 $lang['book_advance_timeout_hint'] = 'Define the timeout (in minutes) before the customers can book or re-arrange appointments with the company.';
 $lang['timeout_minutes'] = 'Timeout (Minutes)';

@@ -311,6 +311,34 @@
                             </tbody>
                         </table>
                     </div>
+                    
+                    <div class="col-md-5 breaks-wrapper">
+                        <h4><?php echo $this->lang->line('appointments'); ?></h4>
+
+                        <span class="help-block">
+                            <?php echo $this->lang->line('edit_appointments_hint'); ?>
+                        </span>
+                        <br>
+                        <table class="table table-striped">
+                        	<thead>
+                        		<tr>
+                        			<th> <?php echo $this->lang->line('settings'); ?></th>
+                        		</tr>
+                        	</thead>
+                             <tr>
+                               	 <th><label for="missed-app-num"><?php echo $this->lang->line('missed_appointments_limit'); ?></label></th>
+                                 <td><input type="text" id="missed-app-num" data-field="missed_app_num" /></td>
+                             </tr>
+                             <tr>
+                               	 <th><label for="missed-app-timeframe"><?php echo $this->lang->line('missed_app_timeframe'); ?></label></th>
+                                 <td><input type="text" id="missed-app-timeframe" data-field="missed_app_timeframe" /></td>
+                             </tr>
+                             <tr>
+                               	 <th><label for="app-probation"><?php echo $this->lang->line('app_probation'); ?></label></th>
+                                 <td><input type="text" id="app-probation" data-field="app_probation" /></td>
+                             </tr>
+                        </table>
+                    </div>
                 </div>
             </fieldset>
         </form>

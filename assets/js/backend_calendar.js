@@ -2060,8 +2060,8 @@ var BackendCalendar = {
             // :: CHECK REQUIRED FIELDS
             var missingRequiredField = false;
             
-            if(($dialog.find('#appointment-id').val() === '') && ($dialog.find('#customer-status-value').val() === 'locked')) {
-            	throw EALang['locked_message'];
+            if(/*($dialog.find('#appointment-id').val() === '') && */ ($dialog.find('#customer-status-value').val() === 'locked')) {
+            	throw (EALang['locked_message1'] + GlobalVariables.missed_app_num + EALang['locked_message2']);
             }
             
             $dialog.find('.required').each(function() {

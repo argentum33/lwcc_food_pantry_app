@@ -400,6 +400,46 @@ class Appointments_Model extends CI_Model {
         $this->db->update('ea_appointments', array('id_google_calendar' => NULL),
                 array('id_users_provider' => $provider_id));
     }
+    
+    public function get_missed_appointments_within_date($user_id, $date) {
+    
+    	// get missed appointment records
+        $result = $this->db
+                ->select('ea_appointments.id')
+                ->from('ea_appointments')
+                ->join('appointment_status', 'ea_appointments.id = appointment_status.ea_appointment_id', 'inner')
+                ->where('appointment_status.status', 'missed')
+                ->where('ea_appointments.id_users_customer', $user_id)
+                ->where('ea_appointments.start_datetime >=', $date)
+                ->get()->num_rows();
+
+
+
+        return $result;
+    
+    }
+    
+    
+    public function get_last_missed_appointment_date($user_id) {
+    
+    	// get start date of last missed appointment
+        $result = $this->db
+                ->select('ea_appointments.start_datetime')
+                ->from('ea_appointments')
+                ->join('appointment_status', 'ea_appointments.id = appointment_status.ea_appointment_id', 'inner')
+                ->where('appointment_status.status', 'missed')
+                ->where('ea_appointments.id_users_customer', $user_id)
+                ->order_by('ea_appointments.start_datetime', 'DESC')
+                ->limit(1)
+                ->get();
+		$result = $result->row_array();
+
+
+        return (isset($result)) ? $result['start_datetime'] : NULL;
+    
+    }
+    
+    
 }
 
 /* End of file appointments_model.php */

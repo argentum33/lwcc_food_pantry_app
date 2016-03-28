@@ -69,6 +69,8 @@ class Backend_api extends CI_Controller {
             $this->load->model('services_model');
             $this->load->model('customers_model');
             $this->load->model('appointment_status_model');
+            $this->load->model('settings_model');
+            
             
             
 
@@ -87,12 +89,38 @@ class Backend_api extends CI_Controller {
             );
 
             $response['appointments'] = $this->appointments_model->get_batch($where_clause);
+            $missed_app_limit = $this->settings_model->get_setting('missed_app_num');
+            $missed_app_timeframe = $this->settings_model->get_setting('missed_app_timeframe');
+            $app_probation = $this->settings_model->get_setting('app_probation');
+            $today = new DateTime();
+            $missed_app_cutoff = (new DateTime())->sub(new DateInterval("P" . $missed_app_timeframe . "M"))->format('Y-m-d 00:00:00');
+            
 
             foreach($response['appointments'] as &$appointment) {
                 $appointment['provider'] = $this->providers_model->get_row($appointment['id_users_provider']);
                 $appointment['service'] = $this->services_model->get_row($appointment['id_services']);
                 $appointment['customer'] = $this->customers_model->get_row($appointment['id_users_customer']);
-                $appointment['customer']['status'] = ($this->appointment_status_model->get_missed_appointments($appointment['id_users_customer']) < 3) ? 'unlocked' : 'locked';
+                
+                if (isset($appointment['customer']['unlock_date']) && ($today  < (new DateTime($appointment['customer']['unlock_date'])))) {
+                
+                	$appointment['customer']['status'] = 'locked';
+                	
+                } else {
+                    $status = ($this->appointments_model->get_missed_appointments_within_date($appointment['id_users_customer'], $missed_app_cutoff) < $missed_app_limit) ? 'unlocked' : 'locked';
+                    
+                    if ($status === 'locked') {
+                    
+                    	$appointment['customer']['unlock_date'] = $this->appointments_model->get_last_missed_appointment_date($appointment['customer']['id']);
+                    	$appointment['customer']['unlock_date'] = (isset($appointment['customer']['unlock_date'])) ? (new DateTime($appointment['customer']['unlock_date']))->add(new DateInterval("P" . $app_probation . "M"))->format('Y-m-d 00:00:00') : $today->format('Y-m-d 00:00:00');
+                    	$this->customers_model->add($appointment['customer']);
+                    
+                    }
+                	
+                	$appointment['customer']['status'] = $status;
+                
+                }
+                
+                
                 $appointment['status'] = $this->appointment_status_model->get_row_by_unique($appointment['id'], $appointment['id_users_customer']);                
                 
             }
@@ -424,12 +452,38 @@ class Backend_api extends CI_Controller {
     
     public function ajax_get_customers() {
     	$this->load->model('customers_model');
-    	$this->load->model('appointment_status_model');
+    	$this->load->model('appointments_model');
+    	$this->load->model('settings_model');
+    	
+    	$missed_app_limit = $this->settings_model->get_setting('missed_app_num');
+    	$missed_app_timeframe = $this->settings_model->get_setting('missed_app_timeframe');
+    	$app_probation = $this->settings_model->get_setting('app_probation');
+    	$today = new DateTime();
+        $missed_app_cutoff = (new DateTime())->sub(new DateInterval("P" . $missed_app_timeframe . "M"))->format('Y-m-d 00:00:00');
     	
     	$customers = $this->customers_model->get_batch();
     	
     	foreach ($customers as &$customerRow) {
-        	$customerRow['status'] = ($this->appointment_status_model->get_missed_appointments($customerRow['id']) < 3) ? 'unlocked' : 'locked';
+    	
+    		   if (isset($customerRow['unlock_date']) && ($today  < (new DateTime($customerRow['unlock_date'])))) {
+                
+                	$customerRow['status'] = 'locked';
+                	
+                } else {
+					$status = ($this->appointments_model->get_missed_appointments_within_date($customerRow['id'],  $missed_app_cutoff) < $missed_app_limit) ? 'unlocked' : 'locked';                
+                
+                    if ($status === 'locked') {
+                    
+                    	$customerRow['unlock_date'] = $this->appointments_model->get_last_missed_appointment_date($customerRow['id']);
+                    	$customerRow['unlock_date'] = (isset($customerRow['unlock_date'])) ? (new DateTime($customerRow['unlock_date']))->add(new DateInterval("P" . $app_probation . "M"))->format('Y-m-d 00:00:00') : $today->format('Y-m-d 00:00:00');
+                    	$this->customers_model->add($customerRow);
+                    
+                    }
+                    
+                    $customerRow['status'] = $status;
+                
+                }
+                
         
         }
         

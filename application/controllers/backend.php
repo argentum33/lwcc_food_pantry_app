@@ -60,15 +60,44 @@ class Backend extends CI_Controller {
         $view['user_display_name'] = $this->user_model->get_user_display_name($this->session->userdata('user_id'));
         $view['active_menu'] = PRIV_APPOINTMENTS;
         $view['book_advance_timeout'] = $this->settings_model->get_setting('book_advance_timeout');
+        $view['missed_app_num'] = $this->settings_model->get_setting('missed_app_num');
         $view['date_format'] = $this->settings_model->get_setting('date_format');
         $view['company_name'] = $this->settings_model->get_setting('company_name');
         $view['available_providers'] = $this->providers_model->get_available_providers();
         $view['available_services'] = $this->services_model->get_available_services();
         $view['customers'] = $this->customers_model->get_batch();
         
+        $missed_app_timeframe = $this->settings_model->get_setting('missed_app_timeframe');
+        $app_probation = $this->settings_model->get_setting('app_probation');
+        $today = new DateTime();
+        $missed_app_cutoff = (new DateTime())->sub(new DateInterval("P" . $missed_app_timeframe . "M"))->format('Y-m-d 00:00:00');
+        
+        
         
         foreach ($view['customers'] as &$customerRow) {
-        	$customerRow['status'] = ($this->appointment_status_model->get_missed_appointments($customerRow['id']) < 3) ? 'unlocked' : 'locked';
+        
+        	if (isset($customerRow['unlock_date']) && ($today  < (new DateTime($customerRow['unlock_date'])))) {
+                
+                	$customerRow['status'] = 'locked';
+                	
+                }   else {
+                	
+        			$status = ($this->appointments_model->get_missed_appointments_within_date($customerRow['id'],  $missed_app_cutoff) < $view['missed_app_num']) ? 'unlocked' : 'locked';
+        			
+        			if ($status === 'locked') {
+                    
+                    	$customerRow['unlock_date'] = $this->appointments_model->get_last_missed_appointment_date($customerRow['id']);
+                    	$customerRow['unlock_date'] = (isset($customerRow['unlock_date'])) ? (new DateTime($customerRow['unlock_date']))->add(new DateInterval("P" . $app_probation . "M"))->format('Y-m-d 00:00:00') : $today->format('Y-m-d 00:00:00');
+                    	$this->customers_model->add($customerRow);
+                    
+                    }
+                    
+                    $customerRow['status'] = $status;
+                    
+                
+            }
+            
+            
         
         }
         
