@@ -119,7 +119,7 @@
                             <input id="status-id" type="hidden" />
                             
 
-                            <div class="form-group">
+                            <div class="form-group hidden-form">
                                 <label for="select-service" class="col-sm-3 control-label"><?php echo $this->lang->line('service'); ?> *</label>
                                 <div class="col-sm-7">
                                     <select id="select-service" class="required form-control">
@@ -180,7 +180,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group hidden-form">
                                 <label for="select-provider" class="col-sm-3 control-label"><?php echo $this->lang->line('provider'); ?> *</label>
                                 <div class="col-md-7">
                                     <select id="select-provider" class="required form-control"></select>
@@ -223,10 +223,10 @@
                         <fieldset class="container">
                             <legend>
                                 <?php echo $this->lang->line('customer_details_title'); ?>
-                                <button id="new-customer" class="btn btn-default btn-xs"
+                                <!--<button id="new-customer" class="btn btn-default btn-xs"
                                         title="<?php echo $this->lang->line('clear_fields_add_existing_customer_hint'); ?>"
                                         type="button"><?php echo $this->lang->line('new'); ?>
-                                </button>
+                                </button> -->
                                 <button id="select-customer" class="btn btn-primary btn-xs"
                                         title="<?php echo $this->lang->line('pick_existing_customer_hint'); ?>"
                                         type="button"><?php echo $this->lang->line('select'); ?>
@@ -240,6 +240,8 @@
                             <input id="customer-id" type="hidden" />
                             <input id="customer-status-value" type="hidden" />
                             
+                            
+                            <div class="hidden-form">
 
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -312,6 +314,9 @@
                                         <textarea id="customer-notes" rows="3" class="form-control"></textarea>
                                     </div>
                                 </div>
+                                
+                            </div> <!-- end hidden form to add customer -->
+                            
                             </div>
                         </fieldset>
                     </form>
