@@ -114,6 +114,18 @@ class Notifications {
 
         // :: INSTANTIATE EMAIL OBJECT AND SEND EMAIL
         $mail = new PHPMailer();
+        
+        
+        $mail->Host = Config::smtphost;
+        $mail->Password = Config::smtppassword;
+        $mail->Port = Config::smtpport;
+        $mail->Username = Config::smtpuserid;
+        
+        $mail->SMTPAuth = Config::smtpauth;
+        $mail->SMTPSecure = Config::smtpsecure;
+        $mail->IsSMTP();
+        
+        
         $mail->From = $company_settings['company_email'];
         $mail->FromName = $company_settings['company_name'];
         $mail->AddAddress($receiver_address); // "Name" argument crushes the phpmailer class.
@@ -187,6 +199,18 @@ class Notifications {
 
         // :: SETUP EMAIL OBJECT AND SEND NOTIFICATION
         $mail = new PHPMailer();
+        /*
+        
+        $mail->Host = Config::smtphost;
+        $mail->Password = Config::smtppassword;
+        $mail->Port = Config::smtpport;
+        $mail->Username = Config::smtpuserid;
+        
+        $mail->SMTPAuth = Config::smtpauth;
+        $mail->SMTPSecure = Config::smtpsecure;
+        $mail->IsSMTP();
+        */
+
         $mail->From         = $company_settings['company_email'];
         $mail->FromName     = $company_settings['company_name'];
         $mail->AddAddress($to_address); // "Name" argument crushes the phpmailer class.
@@ -225,6 +249,18 @@ class Notifications {
 
         // :: SETUP EMAIL OBJECT AND SEND NOTIFICATION
         $mail = new PHPMailer();
+        
+        /**
+        $mail->Host = SystemConfiguration::$smtphost;
+        $mail->Password = SystemConfiguration::$smtppassword;
+        $mail->Port = SystemConfiguration::$smtpport;
+        $mail->Username = SystemConfiguration::$smtpuserid;
+        $mail->SMTPAuth = SystemConfiguration::$smtpauth;
+        $mail->SMTPSecure = SystemConfiguration::$smtpsecure;
+        $mail->IsSMTP();
+        **/
+
+        
         $mail->From = $company_settings['company_email'];
         $mail->FromName = $company_settings['company_name'];
         $mail->AddAddress($email); // "Name" argument crushes the phpmailer class.

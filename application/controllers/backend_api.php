@@ -262,6 +262,16 @@ class Backend_api extends CI_Controller {
                             $service, $customer, $company_settings, $provider_title,
                             $provider_message, $provider_link, $provider['email']);
                 }
+                
+                // this sends the customer a notification if they have missed 
+                // an appointment so that they are up to date
+                /*
+                if($this-> appointment_status.status == 'missed' ) {
+                    $this->notifications->send_appointment_details($appointment, $provider,
+                            $service, $customer, $company_settings, $customer_title,
+                            $customer_message, $customer_link, $customer['email']);
+                }
+                */
 
             } catch(Exception $exc) {
                 $warnings[] = exceptionToJavaScript($exc);

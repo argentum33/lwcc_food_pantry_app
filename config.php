@@ -50,6 +50,15 @@ class Config {
     const GOOGLE_CLIENT_ID      = '';
     const GOOGLE_CLIENT_SECRET  = '';
     const GOOGLE_API_KEY        = '';
+    
+    const smtphost = 'smtp.gmail.com';
+
+    const smtpport = '465';
+    const smtpuserid = 'foodpantrytest@gmail.com';
+    const smtppassword = 'classtest';
+    const smtpauth = true;
+    const smtpsecure = "ssl";
+
 }
 /* End of file config.php */
 /* Location: ./config.php */
