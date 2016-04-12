@@ -51,7 +51,7 @@
     <ul class="nav nav-tabs">
         <li role="presentation" class="admins-tab tab active"><a><?php echo $this->lang->line('admins'); ?></a></li>
         <li role="presentation" class="providers-tab tab"><a><?php echo $this->lang->line('providers'); ?></a></li>
-        <li role="presentation" class="secretaries-tab tab"><a><?php echo $this->lang->line('secretaries'); ?></a></li>
+        <!--<li role="presentation" class="secretaries-tab tab"><a><?php echo $this->lang->line('secretaries'); ?></a></li>-->
     </ul>
 
     <?php
@@ -251,9 +251,8 @@
                 </div>
 
                 <div class="switch-view pull-right">
-                    <strong><?php echo $this->lang->line('current_view'); ?></strong>
                     <div class="display-details current"><?php echo $this->lang->line('details'); ?></div>
-                    <div class="display-working-plan"><?php echo $this->lang->line('working_plan'); ?></div>
+                    <div class="display-working-plan "><?php echo $this->lang->line('working_plan'); ?></div>
                 </div>
 
                 <?php // This form message is outside the details view, so that it can be

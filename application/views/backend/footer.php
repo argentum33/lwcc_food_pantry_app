@@ -20,9 +20,9 @@
         </a>
     </div>
 
-    <div id="footer-user-display-name">
-        <?php echo $this->lang->line('hello') . ', ' . $user_display_name; ?>!
-    </div>
+    <!--<div id="footer-user-display-name">-->
+    <!--    <?php echo $this->lang->line('hello') . ', ' . $user_display_name; ?>!-->
+    <!--</div>-->
 </div>
 
 <script

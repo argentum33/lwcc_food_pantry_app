@@ -37,14 +37,13 @@
         <?php } ?>
 
         <?php if ($privileges[PRIV_SYSTEM_SETTINGS]['view'] == TRUE) { ?>
-        <li role="representation" class="business-logic-tab tab"><a><?php echo $this->lang->line('business_logic'); ?></a></li>
+        <li role="representation" class="business-logic-tab tab"><a><?php echo $this->lang->line('appointments'); ?></a></li>
         <?php } ?>
 
         <?php if ($privileges[PRIV_USER_SETTINGS]['view'] == TRUE) { ?>
         <li role="representation" class="user-tab tab"><a><?php echo $this->lang->line('current_user'); ?></a></li>
         <?php } ?>
 
-        <li role="representation" class="about-tab tab"><a><?php echo $this->lang->line('about_ea'); ?></a></li>
     </ul>
 
     <?php
@@ -95,28 +94,28 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="google-analytics-code">
-                                Google Analytics ID</label>
-                            <input type="text" id="google-analytics-code" placeholder="UA-XXXXXXXX-X"
-                                data-field="google_analytics_code" class="form-control">
-                            <span class="help-block">
-                                <?php echo $this->lang->line('google_analytics_code_hint'); ?>
-                            </span>
-                        </div>
-                        <div class="form-group">
-                            <label for="date-format">
-                                <?php echo $this->lang->line('date_format'); ?>
-                            </label>
-                            <select class="form-control" id="date-format" data-field="date_format">
-                                <option value="DMY">DMY</option>
-                                <option value="MDY">MDY</option>
-                                <option value="YMD">YMD</option>
-                            </select>
-                            <span class="help-block">
-                                <?php echo $this->lang->line('date_format_hint'); ?>
-                            </span>
-                        </div>
+                        <!--<div class="form-group">-->
+                        <!--    <label for="google-analytics-code">-->
+                        <!--        Google Analytics ID</label>-->
+                        <!--    <input type="text" id="google-analytics-code" placeholder="UA-XXXXXXXX-X"-->
+                        <!--        data-field="google_analytics_code" class="form-control">-->
+                        <!--    <span class="help-block">-->
+                        <!--        <?php echo $this->lang->line('google_analytics_code_hint'); ?>-->
+                        <!--    </span>-->
+                        <!--</div>-->
+                        <!--<div class="form-group">-->
+                        <!--    <label for="date-format">-->
+                        <!--        <?php echo $this->lang->line('date_format'); ?>-->
+                        <!--    </label>-->
+                        <!--    <select class="form-control" id="date-format" data-field="date_format">-->
+                        <!--        <option value="DMY">DMY</option>-->
+                        <!--        <option value="MDY">MDY</option>-->
+                        <!--        <option value="YMD">YMD</option>-->
+                        <!--    </select>-->
+                        <!--    <span class="help-block">-->
+                        <!--        <?php echo $this->lang->line('date_format_hint'); ?>-->
+                        <!--    </span>-->
+                        <!--</div>-->
                         <div class="form-group">
                             <label><?php echo $this->lang->line('customer_notifications'); ?></label>
                             <br>
@@ -159,7 +158,7 @@
         <form>
             <fieldset>
                 <legend>
-                    <?php echo $this->lang->line('business_logic'); ?>
+                    <?php echo $this->lang->line('<business_lo></business_lo>gic'); ?>
                     <?php if ($privileges[PRIV_SYSTEM_SETTINGS]['edit'] == TRUE) { ?>
                     <button type="button" class="save-settings btn btn-primary btn-xs"
                             title="<?php echo $this->lang->line('save'); ?>">
@@ -169,149 +168,6 @@
                 </legend>
 
                 <div class="row-fluid">
-                    <div class="col-md-7 working-plan-wrapper">
-                        <h4><?php echo $this->lang->line('working_plan'); ?></h4>
-                        <span class="help-block">
-                            <?php echo $this->lang->line('edit_working_plan_hint'); ?>
-                        </span>
-
-                        <table class="working-plan table table-striped">
-                            <thead>
-                                <tr>
-                                    <th><?php echo $this->lang->line('day'); ?></th>
-                                    <th><?php echo $this->lang->line('start'); ?></th>
-                                    <th><?php echo $this->lang->line('end'); ?></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <div class="checkbox">
-                                            <label>
-                                                <input type="checkbox" id="monday" />
-                                                    <?php echo $this->lang->line('monday'); ?>
-                                            </label>
-                                        </div>
-                                    </td>
-                                    <td><input type="text" id="monday-start" class="work-start" /></td>
-                                    <td><input type="text" id="monday-end" class="work-end" /></td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="checkbox">
-                                            <label>
-                                                <input type="checkbox" id="tuesday" />
-                                                    <?php echo $this->lang->line('tuesday'); ?>
-                                            </label>
-                                        </div>
-                                    </td>
-                                    <td><input type="text" id="tuesday-start" class="work-start" /></td>
-                                    <td><input type="text" id="tuesday-end" class="work-end" /></td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="checkbox">
-                                            <label>
-                                                <input type="checkbox" id="wednesday" />
-                                                    <?php echo $this->lang->line('wednesday'); ?>
-                                            </label>
-                                        </div>
-                                    </td>
-                                    <td><input type="text" id="wednesday-start" class="work-start" /></td>
-                                    <td><input type="text" id="wednesday-end" class="work-end" /></td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="checkbox">
-                                            <label>
-                                                <input type="checkbox" id="thursday" />
-                                                    <?php echo $this->lang->line('thursday'); ?>
-                                            </label>
-                                        </div>
-                                    </td>
-                                    <td><input type="text" id="thursday-start" class="work-start" /></td>
-                                    <td><input type="text" id="thursday-end" class="work-end" /></td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="checkbox">
-                                            <label>
-                                                <input type="checkbox" id="friday" />
-                                                    <?php echo $this->lang->line('friday'); ?>
-                                            </label>
-                                        </div>
-                                    </td>
-                                    <td><input type="text" id="friday-start" class="work-start" /></td>
-                                    <td><input type="text" id="friday-end" class="work-end" /></td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="checkbox">
-                                            <label>
-                                                <input type="checkbox" id="saturday" />
-                                                    <?php echo $this->lang->line('saturday'); ?>
-                                            </label>
-                                        </div>
-                                    </td>
-                                    <td><input type="text" id="saturday-start" class="work-start" /></td>
-                                    <td><input type="text" id="saturday-end" class="work-end" /></td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="checkbox">
-                                            <label>
-                                                <input type="checkbox" id="sunday" />
-                                                    <?php echo $this->lang->line('sunday'); ?>
-                                            </label>
-                                        </div>
-                                    </td>
-                                    <td><input type="text" id="sunday-start" class="work-start" /></td>
-                                    <td><input type="text" id="sunday-end" class="work-end" /></td>
-                                </tr>
-                            </tbody>
-                        </table>
-
-                        <br>
-
-                        <h4><?php echo $this->lang->line('book_advance_timeout'); ?></h4>
-                        <span class="help-block">
-                            <?php echo $this->lang->line('book_advance_timeout_hint'); ?>
-                        </span>
-                        <div class="form-group">
-                            <label for="book-advance-timeout"><?php echo $this->lang->line('timeout_minutes'); ?></label>
-                            <input type="text" id="book-advance-timeout" data-field="book_advance_timeout" class="form-control" />
-                        </div>
-                    </div>
-                    <div class="col-md-5 breaks-wrapper">
-                        <h4><?php echo $this->lang->line('breaks'); ?></h4>
-
-                        <span class="help-block">
-                            <?php echo $this->lang->line('edit_breaks_hint'); ?>
-                        </span>
-
-                        <div>
-                            <button type="button" class="add-break btn btn-primary">
-                                <span class="glyphicon glyphicon-white glyphicon glyphicon-plus"></span>
-                                <?php echo $this->lang->line('add_break');?>
-                            </button>
-                        </div>
-
-                        <br>
-
-                        <table class="breaks table table-striped">
-                            <thead>
-                                <tr>
-                                    <th><?php echo $this->lang->line('day'); ?></th>
-                                    <th><?php echo $this->lang->line('start'); ?></th>
-                                    <th><?php echo $this->lang->line('end'); ?></th>
-                                    <th><?php echo $this->lang->line('actions'); ?></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
-                    </div>
-                    
                     <div class="col-md-5 breaks-wrapper">
                         <h4><?php echo $this->lang->line('appointments'); ?></h4>
 
@@ -444,65 +300,64 @@
         </form>
     </div>
 
-    <?php
-        // --------------------------------------------------------------
-        //
-        // ABOUT TAB
-        //
-        // --------------------------------------------------------------
-    ?>
-    <div id="about" class="tab-content">
-        <h3>Easy!Appointments</h3>
-        <p>
-            <?php echo $this->lang->line('about_ea_info'); ?>
-        </p>
 
-        <br>
+ <!------------------------------------------------------------------>
 
-        <div class="current-version">
-            <?php
-                echo $this->lang->line('current_version') . ' ';
-                echo $this->config->item('ea_version');
-                $release_title = $this->config->item('ea_release_title');
-                if ($release_title != '') {
-                    echo ' - ' . $release_title;
-                }
-            ?>
-        </div>
+ <!--ABOUT TAB-->
 
-		<br>
+ <!------------------------------------------------------------------>
+  <!--  <div id="about" class="tab-content">-->
+  <!--      <h3>Easy!Appointments</h3>-->
+  <!--      <p>-->
+  <!--          <?php echo $this->lang->line('about_ea_info'); ?>-->
+  <!--      </p>-->
 
-        <h3><?php echo $this->lang->line('support'); ?></h3>
-        <p>
-            <?php echo $this->lang->line('about_ea_support'); ?>
-            <br><br>
-            <a href="http://easyappointments.org">
-                <?php echo $this->lang->line('official_website'); ?>
-            </a>
-            |
-            <a href="https://groups.google.com/forum/#!forum/easy-appointments">
-                <?php echo $this->lang->line('support_group'); ?>
-            </a>
-            |
-            <a href="https://github.com/alextselegidis/easyappointments/issues">
-                <?php echo $this->lang->line('project_issues'); ?>
-            </a>
-            |
-            <a href="http://easyappointments.wordpress.com">
-                E!A Blog
-            </a>
-            |
-            <a href="https://plus.google.com/communities/105333709485142846840">
-                <?php echo $this->lang->line('google_plus_community'); ?>
-            </a>
-        </p>
+  <!--      <br>-->
 
-		<br>
+  <!--      <div class="current-version">-->
+  <!--          <?php-->
+  <!--              echo $this->lang->line('current_version') . ' ';-->
+  <!--              echo $this->config->item('ea_version');-->
+  <!--              $release_title = $this->config->item('ea_release_title');-->
+  <!--              if ($release_title != '') {-->
+  <!--                  echo ' - ' . $release_title;-->
+  <!--              }-->
+  <!--          ?>-->
+  <!--      </div>-->
 
-		<h3><?php echo $this->lang->line('license'); ?></h3>
-		<p>
-            <?php echo $this->lang->line('about_ea_license'); ?>
-            <a href="http://www.gnu.org/copyleft/gpl.html">http://www.gnu.org/copyleft/gpl.html</a>
-        </p>
-    </div>
+		<!--<br>-->
+
+  <!--      <h3><?php echo $this->lang->line('support'); ?></h3>-->
+  <!--      <p>-->
+  <!--          <?php echo $this->lang->line('about_ea_support'); ?>-->
+  <!--          <br><br>-->
+  <!--          <a href="http://easyappointments.org">-->
+  <!--              <?php echo $this->lang->line('official_website'); ?>-->
+  <!--          </a>-->
+  <!--          |-->
+  <!--          <a href="https://groups.google.com/forum/#!forum/easy-appointments">-->
+  <!--              <?php echo $this->lang->line('support_group'); ?>-->
+  <!--          </a>-->
+  <!--          |-->
+  <!--          <a href="https://github.com/alextselegidis/easyappointments/issues">-->
+  <!--              <?php echo $this->lang->line('project_issues'); ?>-->
+  <!--          </a>-->
+  <!--          |-->
+  <!--          <a href="http://easyappointments.wordpress.com">-->
+  <!--              E!A Blog-->
+  <!--          </a>-->
+  <!--          |-->
+  <!--          <a href="https://plus.google.com/communities/105333709485142846840">-->
+  <!--              <?php echo $this->lang->line('google_plus_community'); ?>-->
+  <!--          </a>-->
+  <!--      </p>-->
+
+		<!--<br>-->
+
+		<!--<h3><?php echo $this->lang->line('license'); ?></h3>-->
+		<!--<p>-->
+  <!--          <?php echo $this->lang->line('about_ea_license'); ?>-->
+  <!--          <a href="http://www.gnu.org/copyleft/gpl.html">http://www.gnu.org/copyleft/gpl.html</a>-->
+  <!--      </p>-->
+  <!--  </div>-->
 </div>

@@ -97,12 +97,12 @@
 
         <?php // SERVICES MENU ITEM
               // ------------------------------------------------------ ?>
-        <?php $hidden = ($privileges[PRIV_SERVICES]['view'] == TRUE) ? '' : 'hidden'; ?>
-        <?php $active = ($active_menu == PRIV_SERVICES) ? 'active' : ''; ?>
-        <a href="<?php echo $base_url; ?>/index.php/backend/services" class="menu-item <?php echo $hidden; ?><?php echo $active; ?>"
-                title="<?php echo $this->lang->line('manage_services_hint'); ?>">
-            <?php echo $this->lang->line('services'); ?>
-        </a>
+        <!--<?php $hidden = ($privileges[PRIV_SERVICES]['view'] == TRUE) ? '' : 'hidden'; ?>-->
+        <!--<?php $active = ($active_menu == PRIV_SERVICES) ? 'active' : ''; ?>-->
+        <!--<a href="<?php echo $base_url; ?>/index.php/backend/services" class="menu-item <?php echo $hidden; ?><?php echo $active; ?>"-->
+        <!--        title="<?php echo $this->lang->line('manage_services_hint'); ?>">-->
+        <!--    <?php echo $this->lang->line('services'); ?>-->
+        <!--</a>-->
 
         <?php // USERS MENU ITEM
               // ------------------------------------------------------ ?>

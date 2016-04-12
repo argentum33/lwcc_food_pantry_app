@@ -17,7 +17,7 @@
         'availableServices'     : <?php echo json_encode($available_services); ?>,
         'baseUrl'               : <?php echo '"' . $base_url . '"'; ?>,
         'bookAdvanceTimeout'    : <?php echo $book_advance_timeout; ?>,
-        'missed_app_num'    : <?php echo $missed_app_num; ?>,
+        'missed_app_num'        : <?php echo $missed_app_num; ?>,
         'dateFormat'            : <?php echo json_encode($date_format); ?>,
         'editAppointment'       : <?php echo json_encode($edit_appointment); ?>,
         'customers'             : <?php echo json_encode($customers); ?>,
@@ -241,14 +241,14 @@
                             <input id="customer-status-value" type="hidden" />
                             
                             
-                            <div class="hidden-form">
+                            <!--<div class="hidden-form">-->
 
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="first-name" class="control-label col-sm-2">
                                         <?php echo $this->lang->line('first_name'); ?> *</label>
                                     <div class="col-sm-8">
-                                        <input type="text" id="first-name" class="required form-control" />
+                                        <input type="text" id="first-name" class="required form-control" readonly/>
                                     </div>
                                 </div>
 
@@ -256,7 +256,7 @@
                                     <label for="last-name" class="control-label col-sm-2">
                                         <?php echo $this->lang->line('last_name'); ?>*</label>
                                     <div class="col-sm-8">
-                                        <input type="text" id="last-name" class="required form-control" />
+                                        <input type="text" id="last-name" class="required form-control" readonly/>
                                     </div>
                                 </div>
 
@@ -264,7 +264,7 @@
                                     <label for="email" class="control-label col-sm-2">
                                         <?php echo $this->lang->line('email'); ?>*</label>
                                     <div class="col-sm-8">
-                                        <input type="text" id="email" class="required form-control" />
+                                        <input type="text" id="email" class="required form-control" readonly/>
                                     </div>
                                 </div>
 
@@ -272,7 +272,7 @@
                                     <label for="phone-number" class="control-label col-sm-3">
                                         <?php echo $this->lang->line('phone_number'); ?>*</label>
                                     <div class="col-sm-8">
-                                        <input type="text" id="phone-number" class="required form-control" />
+                                        <input type="text" id="phone-number" class="required form-control" readonly/>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -287,7 +287,7 @@
                                     <label for="address" class="control-label col-sm-3">
                                         <?php echo $this->lang->line('address'); ?></label>
                                     <div class="col-md-8">
-                                        <input type="text" id="address" class="form-control" />
+                                        <input type="text" id="address" class="form-control" readonly/>
                                     </div>
                                 </div>
 
@@ -295,7 +295,7 @@
                                     <label for="city" class="control-label col-sm-3">
                                         <?php echo $this->lang->line('city'); ?></label>
                                     <div class="col-md-8">
-                                        <input type="text" id="city" class="form-control" />
+                                        <input type="text" id="city" class="form-control" readonly/>
                                     </div>
                                 </div>
 
@@ -303,7 +303,7 @@
                                     <label for="zip-code" class="control-label col-sm-3">
                                         <?php echo $this->lang->line('zip_code'); ?></label>
                                     <div class="col-md-8">
-                                        <input type="text" id="zip-code" class="form-control" />
+                                        <input type="text" id="zip-code" class="form-control" readonly/>
                                     </div>
                                 </div>
 
@@ -311,11 +311,11 @@
                                     <label for="customer-notes" class="control-label col-sm-3">
                                         <?php echo $this->lang->line('notes'); ?></label>
                                     <div class="col-md-8">
-                                        <textarea id="customer-notes" rows="3" class="form-control"></textarea>
+                                        <textarea id="customer-notes" rows="3" class="form-control" readonly></textarea>
                                     </div>
                                 </div>
                                 
-                            </div> <!-- end hidden form to add customer -->
+                           <!-- </div> <!-- end hidden form to add customer -->
                             
                             </div>
                         </fieldset>
