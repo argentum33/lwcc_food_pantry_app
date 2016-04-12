@@ -100,6 +100,13 @@ class Customers_Model extends CI_Model {
                 ->get()->row()->id;
 
         $customer['id_roles'] = $customer_role_id;
+        
+        if(isset($customer['unlock_date']) && $customer['unlock_date'] === '') {
+        	unset($customer['unlock_date']);
+        }
+        if(isset($customer['unlock_date_display'])) {
+        	unset($customer['unlock_date_display']);
+        }
 
         if (!$this->db->insert('ea_users', $customer)) {
             throw new Exception('Could not insert customer to the database.');
@@ -120,9 +127,18 @@ class Customers_Model extends CI_Model {
      */
     private function update($customer) {
         // Do not update empty string values.
+        /*
         foreach ($customer as $key => $value) {
             if ($value === '')
                 unset($customer[$key]);
+        }
+        */
+        
+        if(isset($customer['unlock_date']) && $customer['unlock_date'] === '') {
+        	unset($customer['unlock_date']);
+        }
+        if(isset($customer['unlock_date_display'])) {
+        	unset($customer['unlock_date_display']);
         }
 
         $this->db->where('id', $customer['id']);

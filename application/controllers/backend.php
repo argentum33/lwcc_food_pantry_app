@@ -71,6 +71,7 @@ class Backend extends CI_Controller {
         $app_probation = $this->settings_model->get_setting('app_probation');
         $today = new DateTime();
         $missed_app_cutoff = (new DateTime())->sub(new DateInterval("P" . $missed_app_timeframe . "M"))->format('Y-m-d 00:00:00');
+        $date_format = $this->settings_model->get_setting('date_format');
         
         
         
@@ -79,6 +80,8 @@ class Backend extends CI_Controller {
         	if (isset($customerRow['unlock_date']) && ($today  < (new DateTime($customerRow['unlock_date'])))) {
                 
                 	$customerRow['status'] = 'locked';
+                	$customerRow['unlock_date_display'] = $this->format_date($customerRow['unlock_date'], $date_format);
+                	
                 	
                 }   else {
                 	
@@ -89,7 +92,14 @@ class Backend extends CI_Controller {
                     	$customerRow['unlock_date'] = $this->appointments_model->get_last_missed_appointment_date($customerRow['id']);
                     	$customerRow['unlock_date'] = (isset($customerRow['unlock_date'])) ? (new DateTime($customerRow['unlock_date']))->add(new DateInterval("P" . $app_probation . "M"))->format('Y-m-d 00:00:00') : $today->format('Y-m-d 00:00:00');
                     	$this->customers_model->add($customerRow);
+                    	$customerRow['unlock_date_display'] = $this->format_date($customerRow['unlock_date'], $date_format);
+                    	
                     
+                    } else if ($status === 'unlocked') {
+                    	$customerRow['unlock_date'] = '';
+                    	$customerRow['unlock_date_display'] = '';
+                    	
+                    	
                     }
                     
                     $customerRow['status'] = $status;
@@ -137,6 +147,7 @@ class Backend extends CI_Controller {
 
         $this->load->model('providers_model');
         $this->load->model('customers_model');
+        $this->load->model('appointments_model');
         $this->load->model('services_model');
         $this->load->model('settings_model');
         $this->load->model('user_model');
@@ -149,6 +160,52 @@ class Backend extends CI_Controller {
         $view['customers'] = $this->customers_model->get_batch();
         $view['available_providers'] = $this->providers_model->get_available_providers();
         $view['available_services'] = $this->services_model->get_available_services();
+        $view['missed_app_num'] = $this->settings_model->get_setting('missed_app_num');
+        
+        
+        $missed_app_timeframe = $this->settings_model->get_setting('missed_app_timeframe');
+        $app_probation = $this->settings_model->get_setting('app_probation');
+        $today = new DateTime();
+        $missed_app_cutoff = (new DateTime())->sub(new DateInterval("P" . $missed_app_timeframe . "M"))->format('Y-m-d 00:00:00');
+        $date_format = $this->settings_model->get_setting('date_format');
+        
+        
+        foreach ($view['customers'] as &$customerRow) {
+        
+        	if (isset($customerRow['unlock_date']) && ($today  < (new DateTime($customerRow['unlock_date'])))) {
+                
+                	$customerRow['status'] = 'locked';
+                	$customerRow['unlock_date_display'] = $this->format_date($customerRow['unlock_date'], $date_format);
+                	
+                	
+                }   else {
+                	
+        			$status = ($this->appointments_model->get_missed_appointments_within_date($customerRow['id'],  $missed_app_cutoff) < $view['missed_app_num']) ? 'unlocked' : 'locked';
+        			
+        			if ($status === 'locked') {
+                    
+                    	$customerRow['unlock_date'] = $this->appointments_model->get_last_missed_appointment_date($customerRow['id']);
+                    	$customerRow['unlock_date'] = (isset($customerRow['unlock_date'])) ? (new DateTime($customerRow['unlock_date']))->add(new DateInterval("P" . $app_probation . "M"))->format('Y-m-d 00:00:00') : $today->format('Y-m-d 00:00:00');
+                    	$this->customers_model->add($customerRow);
+                    	$customerRow['unlock_date_display'] = $this->format_date($customerRow['unlock_date'], $date_format);
+                    	
+                    
+                    } else if ($status === 'unlocked') {
+                    	$customerRow['unlock_date'] = '';
+                    	$customerRow['unlock_date_display'] = '';
+                    	
+                    	
+                    }
+                    
+                    $customerRow['status'] = $status;
+                    
+                
+       		}
+       	}
+        
+        
+        
+        
         $this->set_user_data($view);
 
         $this->load->view('backend/header', $view);
@@ -341,6 +398,33 @@ class Backend extends CI_Controller {
         $view['role_slug'] = $this->session->userdata('role_slug');
         $view['privileges'] = $this->roles_model->get_privileges($this->session->userdata('role_slug'));
     }
+    
+    /**
+    * Return a date of the specified format
+    *
+    * @param string dateString contains a date as a string
+    * @param string dateFormat contains a date format as a string
+    */
+    private function format_date($dateString, $dateFormat) {
+
+        	
+        switch($dateFormat) {
+            case 'DMY':
+                $result =  (new DateTime($dateString))->format("j/n/Y g:i:s A");
+                break;
+            case 'MDY':
+                $result = (new DateTime($dateString))->format("n/j/Y g:i:s A");
+                break;
+            case 'YMD':
+                $result = (new DateTime($dateString))->format("Y/n/j g:i:s A");
+                break;
+            default:
+                $result = (new DateTime($dateString))->format("n/j/Y g:i:s A");
+        }
+        return $result;
+	}
+    
+    
 }
 
 /* End of file backend.php */

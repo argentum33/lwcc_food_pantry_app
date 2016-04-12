@@ -126,6 +126,16 @@
                     <label for="notes"><?php echo $this->lang->line('notes'); ?></label>
                     <textarea id="notes" rows="4" class="form-control"></textarea>
                 </div>
+                
+                <div class="form-group">
+                    <label for="status"><?php echo $this->lang->line('customer_status'); ?></label>
+                    <input type="text" id="status" class="form-control" readonly/>
+                </div>
+                
+                <div class="form-group">
+                    <label for="unlock-date"><?php echo $this->lang->line('unlock_date'); ?></label>
+                    <input type="text" id="unlock-date" class="form-control" readonly/>
+                </div>
 
                 <center><em id="form-message" class="text-error">
                     <?php echo $this->lang->line('fields_are_required'); ?></em></center>

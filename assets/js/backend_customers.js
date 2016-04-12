@@ -344,6 +344,10 @@ CustomersHelper.prototype.display = function(customer) {
     $('#city').val(customer.city);
     $('#zip-code').val(customer.zip_code);
     $('#notes').val(customer.notes);
+    $('#status').val(EALang[customer.status]);
+    $('#unlock-date').val(customer.unlock_date_display);
+    
+    
 
     $('#customer-appointments').data('jsp').destroy();
     $('#customer-appointments').empty();

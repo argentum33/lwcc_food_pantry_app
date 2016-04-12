@@ -30,6 +30,7 @@ $lang['customer_status'] = 'Customer Status';
 $lang['missed_appointments_limit'] = 'Missed Appointments Limit';
 $lang['app_probation'] = "Appointment Probation Period (Months)";
 $lang['missed_app_timeframe'] = "Missed Appointments Time Frame (Months)";
+$lang['unlock_date'] = 'Probation End Date';
 $lang['locked'] = 'Locked';
 $lang['unlocked'] = 'Unlocked';
 $lang['locked_message'] = 'This customer has missed more than 3 appointments!';
