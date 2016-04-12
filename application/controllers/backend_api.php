@@ -279,7 +279,25 @@ class Backend_api extends CI_Controller {
 
                 $send_customer = $this->settings_model->get_setting('customer_notifications');
 
-				if ((bool)$send_customer === TRUE) {
+                if ((bool)$send_customer == TRUE && ($this->appointment_status_model->get_row_by_unique($appointment['id'], $appointment['id_users_customer'])['status'] == 'missed')) {
+                    
+                    $customer_title = "You have missed your appointment at Oasis Food Pantry!";
+                    $customer_message = "Please call Living Water Community Church in order to schedule a new appointment.";
+                    $missed_app_timeframe = $this->settings_model->get_setting('missed_app_timeframe');
+                    $missed_app_cutoff = (new DateTime())->sub(new DateInterval("P" . $missed_app_timeframe . "M"))->format('Y-m-d 00:00:00');
+
+                    $customer['missed_app_num'] = $this->appointments_model->get_missed_appointments_within_date($customer['id'], $missed_app_cutoff);
+                    
+                    $this->notifications->send_appointment_details($appointment, $provider,
+                            $service, $customer, $company_settings, $customer_title,
+                            $customer_message, $customer_link, $customer['email']);
+                }
+
+				elseif ((bool)$send_customer === TRUE) {
+                    
+                    $customer_title = "Thank you for making an appointment at Oasis Food Pantry!";
+                    $customer_message = "Please make sure to attend your scheduled appointment.";
+                    
                     $this->notifications->send_appointment_details($appointment, $provider,
                             $service, $customer, $company_settings, $customer_title,
                             $customer_message, $customer_link, $customer['email']);

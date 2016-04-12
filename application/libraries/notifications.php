@@ -80,19 +80,19 @@ class Notifications {
             '$email_title'              => $title,
             '$email_message'            => $message,
 
-            '$appointment_service'      => $service_data['name'],
-            '$appointment_provider'     => $provider_data['first_name'] . ' ' . $provider_data['last_name'],
-            '$appointment_start_date'   => date('d/m/Y H:i', strtotime($appointment_data['start_datetime'])),
-            '$appointment_end_date'     => date('d/m/Y H:i', strtotime($appointment_data['end_datetime'])),
-            '$appointment_link'         => $appointment_link,
+            // '$appointment_service'      => $service_data['name'],
+            // '$appointment_provider'     => $provider_data['first_name'] . ' ' . $provider_data['last_name'],
+            '$appointment_start_date'   => date('m / d / Y \a\t g:i a', strtotime($appointment_data['start_datetime'])),
+            // '$appointment_end_date'     => date('d/m/Y H:i', strtotime($appointment_data['end_datetime'])),
+            // '$appointment_link'         => $appointment_link,
 
-            '$company_link'             => $company_settings['company_link'],
+            // '$company_link'             => $company_settings['company_link'],
             '$company_name'             => $company_settings['company_name'],
 
             '$customer_name'            => $customer_data['first_name'] . ' ' . $customer_data['last_name'],
             '$customer_email'           => $customer_data['email'],
-            '$customer_phone'           => $customer_data['phone_number'],
-            '$customer_address'         => $customer_data['address'],
+            // '$customer_phone'           => $customer_data['phone_number'],
+            // '$customer_address'         => $customer_data['address'],
 
             // Translations
             'Appointment Details' => $this->ci->lang->line('appointment_details_title'),
@@ -107,6 +107,16 @@ class Notifications {
             'Address' => $this->ci->lang->line('address'),
             'Appointment Link' => $this->ci->lang->line('appointment_link_title')
         );
+        
+        if(isset($customer_data['missed_app_num'])) {
+            $replace_array['$missed_app_num'] = "<tr>
+                                <td class=\"label\" style=\"padding: 3px;font-weight: bold;\">Number of Missed Appointments</td>
+                                <td style=\"padding: 3px;\">" . $customer_data['missed_app_num'] . "</td>
+                        </tr>";
+            
+        } else {
+            $replace_array['$missed_app_num'] = "";
+        }
 
         $email_html = file_get_contents(dirname(dirname(__FILE__))
                 . '/views/emails/appointment_details.php');

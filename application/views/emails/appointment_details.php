@@ -19,20 +19,20 @@
             <table id="appointment-details">
                 <tr>
                     <td class="label" style="padding: 3px;font-weight: bold;">Service</td>
-                    <td style="padding: 3px;">$appointment_service</td>
+                    <td style="padding: 3px;">Oasis Food Pantry</td>
                 </tr>
-                <tr>
-                    <td class="label" style="padding: 3px;font-weight: bold;">Provider</td>
-                    <td style="padding: 3px;">$appointment_provider</td>
-                </tr>
+                <!--<tr>-->
+                <!--    <td class="label" style="padding: 3px;font-weight: bold;">Provider</td>-->
+                <!--    <td style="padding: 3px;">$appointment_provider</td>-->
+                <!--</tr>-->
                 <tr>
                     <td class="label" style="padding: 3px;font-weight: bold;">Start</td>
                     <td style="padding: 3px;">$appointment_start_date</td>
                 </tr>
-                <tr>
-                    <td class="label" style="padding: 3px;font-weight: bold;">End</td>
-                    <td style="padding: 3px;">$appointment_end_date</td>
-                </tr>
+                <!--<tr>-->
+                <!--    <td class="label" style="padding: 3px;font-weight: bold;">End</td>-->
+                <!--    <td style="padding: 3px;">$appointment_end_date</td>-->
+                <!--</tr>-->
             </table>
 
             <h2>Customer Details</h2>
@@ -45,27 +45,30 @@
                     <td class="label" style="padding: 3px;font-weight: bold;">Email</td>
                     <td style="padding: 3px;">$customer_email</td>
                 </tr>
-                <tr>
-                    <td class="label" style="padding: 3px;font-weight: bold;">Phone</td>
-                    <td style="padding: 3px;">$customer_phone</td>
-                </tr>
-                <tr>
-                    <td class="label" style="padding: 3px;font-weight: bold;">Address</td>
-                    <td style="padding: 3px;">$customer_address</td>
-                </tr>
+                $missed_app_num
+
+                
+                <!--<tr>-->
+                <!--    <td class="label" style="padding: 3px;font-weight: bold;">Phone</td>-->
+                <!--    <td style="padding: 3px;">$customer_phone</td>-->
+                <!--</tr>-->
+                <!--<tr>-->
+                <!--    <td class="label" style="padding: 3px;font-weight: bold;">Address</td>-->
+                <!--    <td style="padding: 3px;">$customer_address</td>-->
+                <!--</tr>-->
             </table>
 
-            <h2>Appointment Link</h2>
-            <a href="$appointment_link" style="width: 600px;">$appointment_link</a>
+            <!--<h2>Appointment Link</h2>-->
+            <!--<a href="$appointment_link" style="width: 600px;">$appointment_link</a>-->
         </div>
 
-        <div id="footer" style="padding: 10px; text-align: center; margin-top: 10px;
-                border-top: 1px solid #EEE; background: #FAFAFA;">
-            Powered by
-            <a href="http://easyappointments.org" style="text-decoration: none;">Easy!Appointments</a>
-            |
-            <a href="$company_link" style="text-decoration: none;">$company_name</a>
-        </div>
+        <!--<div id="footer" style="padding: 10px; text-align: center; margin-top: 10px;-->
+        <!--        border-top: 1px solid #EEE; background: #FAFAFA;">-->
+        <!--    Powered by-->
+        <!--    <a href="http://easyappointments.org" style="text-decoration: none;">Easy!Appointments</a>-->
+        <!--    |-->
+        <!--    <a href="$company_link" style="text-decoration: none;">$company_name</a>-->
+        <!--</div>-->
     </div>
 </body>
 </html>
