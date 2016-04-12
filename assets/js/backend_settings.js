@@ -282,15 +282,17 @@ SystemSettings.prototype.get = function() {
     });
 
     // Business Logic Tab
+    /*
     settings.push({
         'name': 'company_working_plan',
         'value': JSON.stringify(BackendSettings.wp.get())
     });
-
+    
     settings.push({
         'name': 'book_advance_timeout',
         'value': $('#book-advance-timeout').val()
     });
+    */
     settings.push({
         'name': 'missed_app_num',
         'value': $('#missed-app-num').val()
