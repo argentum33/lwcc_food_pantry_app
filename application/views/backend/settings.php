@@ -13,6 +13,7 @@
         'baseUrl'       : <?php echo '"' . $base_url . '"'; ?>,
         'dateFormat'    : <?php echo json_encode($date_format); ?>,
         'userSlug'      : <?php echo '"' . $role_slug . '"'; ?>,
+        'book_advance_timeout' : <?php echo $book_advance_timeout; ?>,
         'settings'      : {
             'system'    : <?php echo json_encode($system_settings); ?>,
             'user'      : <?php echo json_encode($user_settings); ?>
@@ -193,7 +194,10 @@
                                	 <th><label for="app-probation"><?php echo $this->lang->line('app_probation'); ?></label></th>
                                  <td><input type="text" id="app-probation" data-field="app_probation" /></td>
                              </tr>
-                        </table>
+                             <tr>
+                               	 <th><label for="book-advance-timeout"><?php echo $this->lang->line('appointment_length'); ?></label></th>
+                                 <td><input type="text" id="book-advance-timeout" data-field="book_advance_timeout" /></td>
+                             </tr>                        </table>
                     </div>
                 </div>
             </fieldset>
