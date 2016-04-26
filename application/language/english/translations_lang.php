@@ -37,11 +37,12 @@ $lang['unlock_date'] = 'Probation End Date';
 $lang['locked'] = 'Locked';
 $lang['unlocked'] = 'Unlocked';
 $lang['locked_message'] = 'This client has missed more than 3 appointments!';
-$lang['family_num'] = 'Number of Family Members';
+$lang['family_num'] = 'Number of People in Family';
 $lang['locked_message1'] = 'This client has missed ';
 $lang['locked_message2'] = ' appointments!';
 $lang['duplicate_customer'] = 'Client not saved. There is already a customer with this address!';
 $lang['appointment_length'] = 'Appointment Length (Minutes)';
+$lang['address_information'] = 'Address Info';
 
 
 $lang['confirm'] = 'Confirm';
