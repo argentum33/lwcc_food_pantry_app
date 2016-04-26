@@ -484,6 +484,7 @@ var BackendCalendar = {
 
                         // Refresh calendar event items.
                         $('#select-filter-item').trigger('change');
+                        location.reload();
                     }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
                 };
 
@@ -854,9 +855,9 @@ var BackendCalendar = {
                 }
             });
 
-            var start = new Date();
+            var start = new Date(GlobalVariables.next_appointment_startdate);
             var currentMin = parseInt(start.toString('mm'));
-
+            /*
             if (currentMin > 0 && currentMin < 15)
                 start.set({ 'minute': 15 });
             else if (currentMin > 15 && currentMin < 30)
@@ -865,9 +866,9 @@ var BackendCalendar = {
                 start.set({ 'minute': 45 });
             else
                 start.addHours(1).set({ 'minute': 0 });
-
+			*/
             $dialog.find('#start-datetime').val(GeneralFunctions.formatDate(start, GlobalVariables.dateFormat, true));
-            $dialog.find('#end-datetime').val(GeneralFunctions.formatDate(start.addMinutes(serviceDuration),
+            $dialog.find('#end-datetime').val(GeneralFunctions.formatDate(start.addMinutes(GlobalVariables.bookAdvanceTimeout),
                     GlobalVariables.dateFormat, true));
                     
             $dialog.find('#app-status').val('scheduled');
@@ -1395,6 +1396,7 @@ var BackendCalendar = {
                 if (successCallback !== undefined) {
                     successCallback(response);
                 }
+                location.reload();
             },
             'error': function(jqXHR, textStatus, errorThrown) {
                 //////////////////////////////////////////////////////////////////
@@ -1979,8 +1981,8 @@ var BackendCalendar = {
             }
         });
 
-        var startDatetime = new Date().addMinutes(GlobalVariables.bookAdvanceTimeout),
-            endDatetime  = new Date().addMinutes(GlobalVariables.bookAdvanceTimeout).addMinutes(serviceDuration),
+        var startDatetime = new Date(GlobalVariables.next_appointment_startdate),
+            endDatetime  = startDatetime.addMinutes(GlobalVariables.bookAdvanceTimeout),
             dateFormat;
 
         switch(GlobalVariables.dateFormat) {
