@@ -22,6 +22,7 @@
         'editAppointment'       : <?php echo json_encode($edit_appointment); ?>,
         'customers'             : <?php echo json_encode($customers); ?>,
         'secretaryProviders'    : <?php echo json_encode($secretary_providers); ?>,
+        'next_appointment_startdate' : <?php echo json_encode($next_appointment_startdate);?>,
         'user'                  : {
             'id'        : <?php echo $user_id; ?>,
             'email'     : <?php echo '"' . $user_email . '"'; ?>,
@@ -120,7 +121,7 @@
                             
 
                             <div class="form-group hidden-form">
-                                <label for="select-service" class="col-sm-3 control-label"><?php echo $this->lang->line('service'); ?> *</label>
+                                <label for="select-service" class="col-sm-3 control-label"><?php echo $this->lang->line('service'); ?> </label>
                                 <div class="col-sm-7">
                                     <select id="select-service" class="required form-control">
                                         <?php
@@ -181,7 +182,7 @@
                             </div>
 
                             <div class="form-group hidden-form">
-                                <label for="select-provider" class="col-sm-3 control-label"><?php echo $this->lang->line('provider'); ?> *</label>
+                                <label for="select-provider" class="col-sm-3 control-label"><?php echo $this->lang->line('provider'); ?> </label>
                                 <div class="col-md-7">
                                     <select id="select-provider" class="required form-control"></select>
                                 </div>
@@ -246,7 +247,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="first-name" class="control-label col-sm-2">
-                                        <?php echo $this->lang->line('first_name'); ?> *</label>
+                                        <?php echo $this->lang->line('first_name'); ?> </label>
                                     <div class="col-sm-8">
                                         <input type="text" id="first-name" class="required form-control" readonly/>
                                     </div>
@@ -254,7 +255,7 @@
 
                                 <div class="form-group">
                                     <label for="last-name" class="control-label col-sm-2">
-                                        <?php echo $this->lang->line('last_name'); ?>*</label>
+                                        <?php echo $this->lang->line('last_name'); ?></label>
                                     <div class="col-sm-8">
                                         <input type="text" id="last-name" class="required form-control" readonly/>
                                     </div>
@@ -262,7 +263,7 @@
 
                                 <div class="form-group">
                                     <label for="email" class="control-label col-sm-2">
-                                        <?php echo $this->lang->line('email'); ?>*</label>
+                                        <?php echo $this->lang->line('email'); ?></label>
                                     <div class="col-sm-8">
                                         <input type="text" id="email" class="required form-control" readonly/>
                                     </div>
@@ -270,7 +271,7 @@
 
                                 <div class="form-group">
                                     <label for="phone-number" class="control-label col-sm-3">
-                                        <?php echo $this->lang->line('phone_number'); ?>*</label>
+                                        <?php echo $this->lang->line('phone_number'); ?></label>
                                     <div class="col-sm-8">
                                         <input type="text" id="phone-number" class="required form-control" readonly/>
                                     </div>
