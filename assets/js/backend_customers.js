@@ -159,6 +159,10 @@ CustomersHelper.prototype.bindEventHandlers = function() {
      */
     $('#edit-customer').click(function() {
         $('.details').find('input, textarea').prop('readonly', false);
+        $('#missed-apps').prop('readonly', true);
+        $('#status').prop('readonly', true);
+        $('#unlock-date').prop('readonly', true);
+        
         $('#add-edit-delete-group').hide();
         $('#save-cancel-group').show();
 
@@ -188,8 +192,11 @@ CustomersHelper.prototype.bindEventHandlers = function() {
             'phone_number': $('#phone-number').val(),
             'address': $('#address').val(),
             'city': $('#city').val(),
+            'state': $('#state').val(),
             'zip_code': $('#zip-code').val(),
-            'notes': $('#notes').val()
+            'notes': $('#notes').val(),
+            'family_num': $('#family-num').val()
+            
         };
 
         if ($('#customer-id').val() != '') {
@@ -240,10 +247,15 @@ CustomersHelper.prototype.save = function(customer) {
 
         if (!GeneralFunctions.handleAjaxExceptions(response)) return;
 
-        Backend.displayNotification(EALang['customer_saved']);
-        BackendCustomers.helper.resetForm();
-        $('#filter-customers .key').val('');
-        BackendCustomers.helper.filter('', response.id, true);
+        Backend.displayNotification(EALang[response.display]);
+        if(response.display === 'customer_saved') {
+            BackendCustomers.helper.resetForm();
+            $('#filter-customers .key').val('');
+            BackendCustomers.helper.filter('', response.id, true);
+        } else if (response.display === 'duplicate_customer') {
+        	
+        }
+
     }, 'json').fail(GeneralFunctions.ajaxFailureHandler);
 };
 
@@ -295,7 +307,7 @@ CustomersHelper.prototype.validate = function(customer) {
         }
 
         // Validate email address.
-        if (!GeneralFunctions.validateEmail($('#email').val())) {
+        if ($('#email').val() !== '' && !GeneralFunctions.validateEmail($('#email').val())) {
             $('#email').css('border', '2px solid red');
             throw EALang['invalid_email'];
         }
@@ -342,10 +354,15 @@ CustomersHelper.prototype.display = function(customer) {
     $('#phone-number').val(customer.phone_number);
     $('#address').val(customer.address);
     $('#city').val(customer.city);
+    $('#state').val(customer.state);
     $('#zip-code').val(customer.zip_code);
     $('#notes').val(customer.notes);
     $('#status').val(EALang[customer.status]);
     $('#unlock-date').val(customer.unlock_date_display);
+    $('#missed-apps').val(customer.missed_app_num);
+    $('#family-num').val(customer.family_num);
+
+
     
     
 
@@ -481,6 +498,7 @@ CustomersHelper.prototype.displayAppointment = function(appointment) {
                 '<strong>' + appointment.service.name + '</strong><br>' +
                 appointment.provider.first_name + ' ' + appointment.provider.last_name + '<br>' +
                 start + ' - ' + end + '<br>' +
+                '<span' + ((appointment.status === 'missed') ? ' class="highlight-red"' : '') + '>' + EALang[appointment.status] + '</span>' +
             '</div>';
 
     $('#appointment-details').html(html);
