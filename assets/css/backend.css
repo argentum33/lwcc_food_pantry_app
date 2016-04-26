@@ -328,6 +328,10 @@ body .jspTrack {
     font-size: 12px;
 }
 
+.highlight-red {
+    color: red;
+}
+
 body .form-horizontal .control-label {
     width: 135px;
 }
