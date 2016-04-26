@@ -209,7 +209,13 @@ var BackendCalendar = {
 
             var endDatetime = Date.parseExact(appointment['end_datetime'],
                     'yyyy-MM-dd HH:mm:ss');
-            $dialog.find('#end-datetime').val(GeneralFunctions.formatDate(endDatetime, GlobalVariables.dateFormat, true));            
+            $dialog.find('#end-datetime').val(GeneralFunctions.formatDate(endDatetime, GlobalVariables.dateFormat, true));  
+            
+            //sets the customers name to red if status is locked
+            if($dialog.find('#status').val() == "locked"){
+                $('#first-name').addClass("highlight-red");
+                console.log('howdy');
+            }
 
             var customer = appointment['customer'];
             $dialog.find('#customer-id').val(appointment['id_users_customer']);
@@ -591,6 +597,7 @@ var BackendCalendar = {
                 'city': $dialog.find('#city').val(),
                 'zip_code': $dialog.find('#zip-code').val(),
                 'notes': $dialog.find('#customer-notes').val()
+                
             };
 
             if ($dialog.find('#customer-id').val() !== '') {
@@ -912,8 +919,14 @@ var BackendCalendar = {
                 $('#filter-existing-customers').fadeIn('slow');
                 $('#filter-existing-customers').val('');
                 $.each(GlobalVariables.customers, function(index, c) {
+                    if(c.status == 'locked') {
+                        console.log(c.status);
+                        $list.append('<div class="highlight-red" data-id="' + c.id + '">'
+                            + c.first_name + ' ' + c.last_name + '</div>');
+                    } else {
                     $list.append('<div data-id="' + c.id + '">'
                             + c.first_name + ' ' + c.last_name + '</div>');
+                    }
                 });
             } else {
                 $list.slideUp('slow');
