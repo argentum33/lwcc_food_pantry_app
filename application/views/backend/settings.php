@@ -127,19 +127,19 @@
                                 <?php echo $this->lang->line('customer_notifications_hint'); ?>
                             </span>
                         </div>
-                        <div class="form-group">
-                            <label for="require-captcha">
-                                CAPTCHA
-                            </label>
-                            <br>
-                            <button type="button" id="require-captcha" class="btn btn-default" data-toggle="button" aria-pressed="false">
-                                <span class="glyphicon glyphicon-lock"></span>
-                                <?php echo $this->lang->line('require_captcha'); ?>
-                            </button>
-                            <span class="help-block">
-                                <?php echo $this->lang->line('require_captcha_hint'); ?>
-                            </span>
-                        </div>
+                        <!--<div class="form-group">-->
+                        <!--    <label for="require-captcha">-->
+                        <!--        CAPTCHA-->
+                        <!--    </label>-->
+                        <!--    <br>-->
+                        <!--    <button type="button" id="require-captcha" class="btn btn-default" data-toggle="button" aria-pressed="false">-->
+                        <!--        <span class="glyphicon glyphicon-lock"></span>-->
+                        <!--        <?php echo $this->lang->line('require_captcha'); ?>-->
+                        <!--    </button>-->
+                        <!--    <span class="help-block">-->
+                        <!--        <?php echo $this->lang->line('require_captcha_hint'); ?>-->
+                        <!--    </span>-->
+                        <!--</div>-->
                     </div>
                 </div>
             </fieldset>
