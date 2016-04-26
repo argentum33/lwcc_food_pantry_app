@@ -27,7 +27,7 @@
 
 <div id="customers-page" class="container-fluid">
     <div class="row">
-    	<div id="filter-customers" class="filter-records column col-md-4">
+    	<div id="filter-customers" class="filter-records column col-md-2">
     		<form class="input-append">
     			<input class="key" type="text" />
                 <div class="btn-group">
@@ -44,7 +44,7 @@
             <div class="results"></div>
     	</div>
 
-    	<div class="details col-md-7 row">
+    	<div class="details col-md-10 row">
             <div class="btn-toolbar">
                 <div id="add-edit-delete-group" class="btn-group">
                     <?php if ($privileges[PRIV_CUSTOMERS]['add'] == TRUE) { ?>
@@ -98,35 +98,21 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="email"><?php echo $this->lang->line('email'); ?> *</label>
-                    <input type="text" id="email" class="form-control required" />
-                </div>
-
-                <div class="form-group">
                     <label for="phone-number"><?php echo $this->lang->line('phone_number'); ?> *</label>
                     <input type="text" id="phone-number" class="form-control required" />
                 </div>
-
                 <div class="form-group">
-                    <label for="address"><?php echo $this->lang->line('address'); ?></label>
-                    <input type="text" id="address" class="form-control" />
-                </div>
-
-                <div class="form-group">
-                    <label for="city"><?php echo $this->lang->line('city'); ?></label>
-                    <input type="text" id="city" class="form-control" />
-                </div>
-
-                <div class="form-group">
-                    <label for="zip-code"><?php echo $this->lang->line('zip_code'); ?></label>
-                    <input type="text" id="zip-code" class="form-control" />
-                </div>
-
-                <div class="form-group">
+                    <label for="email"><?php echo $this->lang->line('email'); ?> </label>
+                    <input type="text" id="email" class="form-control " />
+                </div>                      <div class="form-group">
                     <label for="notes"><?php echo $this->lang->line('notes'); ?></label>
                     <textarea id="notes" rows="4" class="form-control"></textarea>
                 </div>
-                
+          
+                <div class="form-group">
+                    <label for="missed-apps"><?php echo $this->lang->line('num_missed_apps'); ?></label>
+                    <input type="text" id="missed-apps" class="form-control" readonly/>
+                </div>
                 <div class="form-group">
                     <label for="status"><?php echo $this->lang->line('customer_status'); ?></label>
                     <input type="text" id="status" class="form-control" readonly/>
@@ -140,8 +126,35 @@
                 <center><em id="form-message" class="text-error">
                     <?php echo $this->lang->line('fields_are_required'); ?></em></center>
             </div>
+            <div class="col-md-5" style="margin-left: 0;">
+                <h3><?php echo $this->lang->line('address_information'); ?></h3>
+            
+                <div class="form-group">
+                    <label for="address"><?php echo $this->lang->line('address'); ?> *</label>
+                    <input type="text" id="address" class="form-control required" />
+                </div>
 
-            <div class="col-md-5">
+                <div class="form-group">
+                    <label for="city"><?php echo $this->lang->line('city'); ?> *</label>
+                    <input type="text" id="city" class="form-control required" />
+                </div>
+                
+                <div class="form-group">
+                    <label for="state"><?php echo $this->lang->line('state'); ?> *</label>
+                    <input type="text" id="state" class="form-control required" />
+                </div>
+
+                <div class="form-group">
+                    <label for="zip-code"><?php echo $this->lang->line('zip_code'); ?> *</label>
+                    <input type="text" id="zip-code" class="form-control required" />
+                </div>
+                <div class="form-group">
+                    <label for="family-num"><?php echo $this->lang->line('family_num'); ?> *</label>
+                    <input type="text" id="family-num" class="form-control required" />
+                </div>
+            </div>
+
+            <div class="col-md-1">
                 <h3><?php echo $this->lang->line('appointments'); ?></h3>
                 <div id="customer-appointments"></div>
                 <div id="appointment-details"></div>
