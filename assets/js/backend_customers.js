@@ -375,7 +375,8 @@ CustomersHelper.prototype.display = function(customer) {
                 '<div class="appointment-row" data-id="' + appointment.id + '">' +
                     start + ' - ' + end + '<br>' +
                     appointment.service.name + ', ' +
-                    appointment.provider.first_name + ' ' + appointment.provider.last_name +
+                    appointment.provider.first_name + ' ' + appointment.provider.last_name + '<br>' +
+                    '<span' + ((appointment.status === 'missed') ? ' class="highlight-red" ' : '') + '>' + EALang[appointment.status] + '</span>' +
                 '</div>';
         $('#customer-appointments').append(html);
     });
