@@ -55,6 +55,8 @@ class Backend_api extends CI_Controller {
      */
     public function ajax_get_calendar_appointments() {
         try {
+        	date_default_timezone_set ( 'America/New_York' );
+        	 
             if ($this->privileges[PRIV_APPOINTMENTS]['view'] == FALSE) {
                 throw new Exception('You do not have the required privileges for this task.');
             }
@@ -476,6 +478,10 @@ class Backend_api extends CI_Controller {
     }
     
     public function ajax_get_customers() {
+    	
+    	date_default_timezone_set ( 'America/New_York' );
+    	 
+    	
     	$this->load->model('customers_model');
     	$this->load->model('appointments_model');
     	$this->load->model('settings_model');
@@ -490,6 +496,9 @@ class Backend_api extends CI_Controller {
     	$customers = $this->customers_model->get_batch();
     	
     	foreach ($customers as &$customerRow) {
+    		
+    		$customerRow['missed_app_num'] = $this->appointments_model->get_missed_appointments_within_date($customerRow['id'],  $missed_app_cutoff);
+    		
     	
     		   if (isset($customerRow['unlock_date']) && ($today  < (new DateTime($customerRow['unlock_date'])))) {
                 
@@ -498,7 +507,7 @@ class Backend_api extends CI_Controller {
                 	
                 	
                 } else {
-					$status = ($this->appointments_model->get_missed_appointments_within_date($customerRow['id'],  $missed_app_cutoff) < $missed_app_limit) ? 'unlocked' : 'locked';                
+					$status = ($customerRow['missed_app_num'] < $missed_app_limit) ? 'unlocked' : 'locked';                
                 
                     if ($status === 'locked') {
                     
@@ -537,11 +546,14 @@ class Backend_api extends CI_Controller {
      */
     public function ajax_filter_customers() {
     	try {
+    		date_default_timezone_set ( 'America/New_York' );
+    		
             if ($this->privileges[PRIV_CUSTOMERS]['view'] == FALSE) {
                 throw new Exception('You do not have the required privileges for this task.');
             }
 
             $this->load->model('appointments_model');
+            $this->load->model('appointment_status_model');
             $this->load->model('settings_model');
             $this->load->model('services_model');
             $this->load->model('providers_model');
@@ -577,9 +589,14 @@ class Backend_api extends CI_Controller {
                             ->get_row($appointment['id_services']);
                     $appointment['provider'] = $this->providers_model
                             ->get_row($appointment['id_users_provider']);
+                    $appointment['status'] = ($this->appointment_status_model->get_row_by_unique($appointment['id'], $customer['id']));
+                    $appointment['status'] = $appointment['status']['status'];
                 }
 
                 $customer['appointments'] = $appointments;
+                
+                $customer['missed_app_num'] = $this->appointments_model->get_missed_appointments_within_date($customer['id'],  $missed_app_cutoff);
+                
                 
                 
                 if (isset($customer['unlock_date']) && ($today  < (new DateTime($customer['unlock_date'])))) {
@@ -590,7 +607,7 @@ class Backend_api extends CI_Controller {
                 	
                 }   else {
                 	
-        			$status = ($this->appointments_model->get_missed_appointments_within_date($customer['id'],  $missed_app_cutoff) < $missed_app_num) ? 'unlocked' : 'locked';
+        			$status = ($customer['missed_app_num'] < $missed_app_num) ? 'unlocked' : 'locked';
         			
         			if ($status === 'locked') {
                     
@@ -753,12 +770,26 @@ class Backend_api extends CI_Controller {
             if ($REQUIRED_PRIV == FALSE) {
                 throw new Exception('You do not have the required privileges for this task.');
             }
+            $customer_exists = $this->customers_model->exists($customer);
+            
+			if(!($customer_exists) || ($customer_exists && isset($customer['id']) && ($customer['id'] == $this->customers_model->get_customer_by_address($customer)))) {
+				$customer_id = $this->customers_model->add($customer);
+				echo json_encode(array(
+						'status' => AJAX_SUCCESS,
+						'id' => $customer_id,
+						'display' => 'customer_saved'
+				));
+				
+			} else {
+				echo json_encode(array(
+						'status' => AJAX_SUCCESS,
+						'id' => $customer_id,
+						'display' => 'duplicate_customer'
+				));
+				
+				
+			}
 
-            $customer_id = $this->customers_model->add($customer);
-            echo json_encode(array(
-                'status' => AJAX_SUCCESS,
-                'id' => $customer_id
-            ));
         } catch(Exception $exc) {
             echo json_encode(array(
                 'exceptions' => array(exceptionToJavaScript($exc))
@@ -1368,6 +1399,8 @@ class Backend_api extends CI_Controller {
     * @param string dateFormat contains a date format as a string
     */
     private function format_date($dateString, $dateFormat) {
+    	date_default_timezone_set ( 'America/New_York' );
+    	 
     
     	if(empty($dateString)) {
     		return '';
