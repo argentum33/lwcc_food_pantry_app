@@ -149,6 +149,16 @@ class User_Model extends CI_Model {
 
         return $new_password;
     }
+    
+    public function get_user_settings_by_username($username) {
+    	$result = $this->db
+    	->select('*')
+    	->from('ea_user_settings')
+    	->where('ea_user_settings.username', $username)
+    	->get();
+    	
+    	return $result->row_array();
+    }
 }
 
 /* End of file user_model.php */
