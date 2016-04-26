@@ -348,14 +348,13 @@ class Customers_Model extends CI_Model {
     /**
      * Get a customer record by its address
      */
-    public function get_customer_by_address($customer) {
+    public function get_customer_id_by_address($customer) {
     	if (!isset($customer['address']) && !isset($customer['city']) && !isset($customer['state']) && !isset($customer['zip_code'])) {
     		throw new Exception('Customer\'s full address is not provided.');
     	}
     	
-    	// This method shouldn't depend on another method of this class.
     	$result = $this->db
-    	->select('*')
+    	->select('ea_users.id')
     	->from('ea_users')
     	->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
     	->where('ea_users.address', $customer['address'])
@@ -363,9 +362,9 @@ class Customers_Model extends CI_Model {
     	->where('ea_users.state', $customer['state'])
     	->where('ea_users.zip_code', $customer['zip_code'])
     	->where('ea_roles.slug', DB_SLUG_CUSTOMER)
-    	->get();
+    	->get()->row_array();
     	
-    	return $result->row()->id;
+    	return $result['id'];
     }
     
     

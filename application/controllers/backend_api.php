@@ -772,7 +772,8 @@ class Backend_api extends CI_Controller {
             }
             $customer_exists = $this->customers_model->exists($customer);
             
-			if(!($customer_exists) || ($customer_exists && isset($customer['id']) && ($customer['id'] == $this->customers_model->get_customer_by_address($customer)))) {
+            
+			if((!($customer_exists)) || (($customer_exists && isset($customer['id']) && ($customer['id'] == $this->customers_model->get_customer_id_by_address($customer))))) {
 				$customer_id = $this->customers_model->add($customer);
 				echo json_encode(array(
 						'status' => AJAX_SUCCESS,
@@ -783,7 +784,7 @@ class Backend_api extends CI_Controller {
 			} else {
 				echo json_encode(array(
 						'status' => AJAX_SUCCESS,
-						'id' => $customer_id,
+						'id' => $customer['id'],
 						'display' => 'duplicate_customer'
 				));
 				
