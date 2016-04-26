@@ -39,10 +39,10 @@
     <div id="calendar-toolbar">
         <div id="calendar-filter" class="form-group form-inline">
             <label for="select-filter-item">
-                <?php echo $this->lang->line('display_calendar'); ?>
+                <?php $this->lang->line('display_calendar'); ?>
             </label>
             <select id="select-filter-item" class="form-control">
-                    title="<?php echo $this->lang->line('select_filter_item_hint'); ?>">
+                    title="<?php $this->lang->line('select_filter_item_hint'); ?>">
             </select>
         </div>
 
@@ -78,11 +78,11 @@
                     <?php echo $this->lang->line('appointment'); ?>
                 </button>
 
-                <button id="insert-unavailable" class="btn btn-default"
-                        title="<?php echo $this->lang->line('unavailable_periods_hint'); ?>">
-                    <span class="glyphicon glyphicon-plus"></span>
-                    <?php echo $this->lang->line('unavailable'); ?>
-                </button>
+                <!--<button id="insert-unavailable" class="btn btn-default"-->
+                <!--        title="<?php echo $this->lang->line('unavailable_periods_hint'); ?>">-->
+                <!--    <span class="glyphicon glyphicon-plus"></span>-->
+                <!--    <?php echo $this->lang->line('unavailable'); ?>-->
+                <!--</button>-->
             </div>
             <?php } ?>
         </div>
