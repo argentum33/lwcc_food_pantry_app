@@ -39,7 +39,7 @@ class Customers_Model extends CI_Model {
         // Validate the customer data before doing anything.
         $this->validate($customer);
 
-        // :: CHECK IF CUSTOMER ALREADY EXIST (FROM EMAIL).
+        // :: CHECK IF CUSTOMER ALREADY EXIST (FROM ADDRESS).
         if ($this->exists($customer) && !isset($customer['id'])) {
         	// Find the customer id from the database.
         	$customer['id'] = $this->find_record_id($customer);
@@ -67,8 +67,8 @@ class Customers_Model extends CI_Model {
      * @return bool Returns wether the record exists or not.
      */
     public function exists($customer) {
-        if (!isset($customer['email'])) {
-            throw new Exception('Customer\'s email is not provided.');
+        if (!isset($customer['address']) && !isset($customer['city']) && !isset($customer['state']) && !isset($customer['zip_code'])) {
+            throw new Exception('Customer\'s full address is not provided.');
         }
 
         // This method shouldn't depend on another method of this class.
@@ -76,7 +76,10 @@ class Customers_Model extends CI_Model {
                 ->select('*')
                 ->from('ea_users')
                 ->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
-                ->where('ea_users.email', $customer['email'])
+                ->where('ea_users.address', $customer['address'])
+                ->where('ea_users.city', $customer['city'])
+                ->where('ea_users.state', $customer['state'])
+                ->where('ea_users.zip_code', $customer['zip_code'])
                 ->where('ea_roles.slug', DB_SLUG_CUSTOMER)
                 ->get()->num_rows();
 
@@ -106,6 +109,10 @@ class Customers_Model extends CI_Model {
         }
         if(isset($customer['unlock_date_display'])) {
         	unset($customer['unlock_date_display']);
+        }
+        
+        if(isset($customer['missed_app_num'])) {
+        	unset($customer['missed_app_num']);
         }
 
         if (!$this->db->insert('ea_users', $customer)) {
@@ -336,6 +343,29 @@ class Customers_Model extends CI_Model {
      */
     public function get_customers_role_id() {
         return $this->db->get_where('ea_roles', array('slug' => DB_SLUG_CUSTOMER))->row()->id;
+    }
+    
+    /**
+     * Get a customer record by its address
+     */
+    public function get_customer_by_address($customer) {
+    	if (!isset($customer['address']) && !isset($customer['city']) && !isset($customer['state']) && !isset($customer['zip_code'])) {
+    		throw new Exception('Customer\'s full address is not provided.');
+    	}
+    	
+    	// This method shouldn't depend on another method of this class.
+    	$result = $this->db
+    	->select('*')
+    	->from('ea_users')
+    	->join('ea_roles', 'ea_roles.id = ea_users.id_roles', 'inner')
+    	->where('ea_users.address', $customer['address'])
+    	->where('ea_users.city', $customer['city'])
+    	->where('ea_users.state', $customer['state'])
+    	->where('ea_users.zip_code', $customer['zip_code'])
+    	->where('ea_roles.slug', DB_SLUG_CUSTOMER)
+    	->get();
+    	
+    	return $result->row()->id;
     }
     
     
