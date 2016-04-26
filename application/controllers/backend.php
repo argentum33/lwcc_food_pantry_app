@@ -42,6 +42,8 @@ class Backend extends CI_Controller {
      * appear when the page loads.
      */
     public function index($appointment_hash = '') {
+    	date_default_timezone_set ( 'America/New_York' );
+    	 
         $this->session->set_userdata('dest_url', $this->config->item('base_url') . '/index.php/backend');
         if (!$this->has_privileges(PRIV_APPOINTMENTS)) return;
 
@@ -67,12 +69,143 @@ class Backend extends CI_Controller {
         $view['available_services'] = $this->services_model->get_available_services();
         $view['customers'] = $this->customers_model->get_batch();
         
+        $default_provider_settings = ($this->user_model->get_user_settings_by_username('default'));
+        $view['default_working_plan'] = $default_provider_settings['working_plan'];
+        
+        // variables for missed appointment calculations
         $missed_app_timeframe = $this->settings_model->get_setting('missed_app_timeframe');
         $app_probation = $this->settings_model->get_setting('app_probation');
         $today = new DateTime();
         $missed_app_cutoff = (new DateTime())->sub(new DateInterval("P" . $missed_app_timeframe . "M"))->format('Y-m-d 00:00:00');
         $date_format = $this->settings_model->get_setting('date_format');
         
+        
+        // variables for next appointment time calculations
+        $start_date_found = false;
+        $working_plan = json_decode($view['default_working_plan'], true);
+        $last_appointment_startdate = ($this->appointments_model->get_last_appointment());
+        $last_appointment_startdate = $last_appointment_startdate['start_datetime'];
+        $last_appointment_datetime = new DateTime($last_appointment_startdate);
+        
+        if(!empty($last_appointment_startdate) && ($last_appointment_datetime > $today)) {
+        	
+        	$last_appointment_day_of_week = new DateTime($last_appointment_startdate);
+        	$last_appointment_day_of_week = $last_appointment_day_of_week->format('l');
+        	$view['data'] = $last_appointment_day_of_week;
+        	$working_plan_day = $working_plan[strtolower($last_appointment_day_of_week)];
+        	$next_appointment_startdate = (new DateTime($last_appointment_startdate))->add(new DateInterval('PT' . $view['book_advance_timeout'] . 'M'));
+        	$view['next_appointment_startdate'] = $next_appointment_startdate->format('Y-m-d H:i:s');
+        	
+        	
+        	if(isset($working_plan_day)) {
+        		$working_day_endtime = explode(':', $working_plan_day['end']);
+        		$working_day_endtime_date = (new DateTime($last_appointment_startdate));
+        		$working_day_endtime_date->setTime($working_day_endtime[0], $working_day_endtime[1]);
+        			
+        		if($next_appointment_startdate < $working_day_endtime_date)  {
+        			$start_date_found = true;
+        		}
+        			
+        	}
+        	
+        	if(!($start_date_found == true)) {
+        		
+        		//$view['next_appointment_startdate'] = 'null';
+        		
+        		
+        		$day_num_found = false;
+        		$days_until_next_working_day = 1;
+        		$start_date = (new DateTime($last_appointment_startdate));
+        		$start_date->add(new DateInterval('P1D'));        		
+        		$day_of_week = strtolower($start_date->format('l'));
+        		
+        		 
+        		 
+        		 
+        		while(!($day_num_found)) {
+        			
+        			$day_of_week = strtolower($start_date->format('l'));
+        			 
+        			if(isset($working_plan[$day_of_week])) {
+        				$day_num_found = true;
+        				
+        			} else {
+        				$days_until_next_working_day = $days_until_next_working_day + 1;
+        				$start_date->add(new DateInterval('P1D'));
+        	
+        				if(strtolower($start_date->format('l')) == strtolower($last_appointment_day_of_week)) {
+        					$days_until_next_working_day = 1;
+        					$day_num_found = true;
+        				}
+        	
+        			}
+        			
+        		}
+        		
+        		$next_appointment_startdate = (new DateTime($last_appointment_startdate));        		
+        		$next_appointment_startdate->add(new DateInterval('P' . $days_until_next_working_day . 'D'));        		
+        		$working_plan_day = $working_plan[strtolower($next_appointment_startdate->format('l'))];
+        		if(isset($working_plan_day)) {
+        			$working_day_endtime = explode(':', $working_plan_day['start']);
+        			$next_appointment_startdate->setTime(intval($working_day_endtime[0], 10), intval($working_day_endtime[1], 10));
+        		}
+
+        		$view['next_appointment_startdate'] = $next_appointment_startdate->format('Y-m-d H:i:s');
+        		
+        	}
+        	
+        	
+
+        	 
+        }  else {
+        	
+        	
+        	$day_num_found = false;
+        	$days_until_next_working_day = 1;
+        	$start_date = (new DateTime());
+        	//$view['next_appointment_startdate'] = $start_date->format('Y-m-d H:i:s');
+        	$start_date->add(new DateInterval('P1D'));
+        	$day_of_week = strtolower($start_date->format('l'));
+        	$today_day_of_week = new DateTime();
+        	$today_day_of_week = $today_day_of_week->format('l');
+        	
+        	 
+        	 
+        	 
+        	while(!($day_num_found)) {
+        		 
+        		$day_of_week = strtolower($start_date->format('l'));
+        	
+        		if(isset($working_plan[$day_of_week])) {
+        			$day_num_found = true;
+        			//$view['next_appointment_startdate'] = $days_until_next_working_day;
+        			        			
+        		} else {
+        			$days_until_next_working_day = $days_until_next_working_day + 1;
+        			$start_date->add(new DateInterval('P1D'));
+        			 
+        			if(strtolower($start_date->format('l')) == strtolower($today_day_of_week)) {
+        				$days_until_next_working_day = 1;
+        				$day_num_found = true;
+        			}
+        			 
+        		}
+        		 
+        	}
+        	
+        	$next_appointment_startdate = (new DateTime());
+        	$next_appointment_startdate->add(new DateInterval('P' . $days_until_next_working_day . 'D'));
+        	$working_plan_day = $working_plan[strtolower($next_appointment_startdate->format('l'))];
+        	if(isset($working_plan_day)) {
+        		$working_day_endtime = explode(':', $working_plan_day['start']);
+        		$next_appointment_startdate->setTime(intval($working_day_endtime[0], 10), intval($working_day_endtime[1], 10));
+        	}
+
+        	$view['next_appointment_startdate'] = $next_appointment_startdate->format('Y-m-d H:i:s');
+        	
+        	//$view['next_appointment_startdate'] = 'null';
+        	
+        }
         
         
         foreach ($view['customers'] as &$customerRow) {
@@ -142,6 +275,8 @@ class Backend extends CI_Controller {
      * In this page the user can manage all the customer records of the system.
      */
     public function customers() {
+    	date_default_timezone_set ( 'America/New_York' );
+    	 
         $this->session->set_userdata('dest_url', $this->config->item('base_url') . '/index.php/backend/customers');
     	if (!$this->has_privileges(PRIV_CUSTOMERS)) return;
 
@@ -171,6 +306,8 @@ class Backend extends CI_Controller {
         
         
         foreach ($view['customers'] as &$customerRow) {
+        	
+        	$customerRow['missed_app_num'] = $this->appointments_model->get_missed_appointments_within_date($customerRow['id'],  $missed_app_cutoff);
         
         	if (isset($customerRow['unlock_date']) && ($today  < (new DateTime($customerRow['unlock_date'])))) {
                 
@@ -180,7 +317,7 @@ class Backend extends CI_Controller {
                 	
                 }   else {
                 	
-        			$status = ($this->appointments_model->get_missed_appointments_within_date($customerRow['id'],  $missed_app_cutoff) < $view['missed_app_num']) ? 'unlocked' : 'locked';
+        			$status = ($customerRow['missed_app_num'] < $view['missed_app_num']) ? 'unlocked' : 'locked';
         			
         			if ($status === 'locked') {
                     
@@ -306,6 +443,7 @@ class Backend extends CI_Controller {
         $view['role_slug'] = $this->session->userdata('role_slug');
         $view['system_settings'] = $this->settings_model->get_settings();
         $view['user_settings'] = $this->user_model->get_settings($user_id);
+        $view['book_advance_timeout'] = $this->settings_model->get_setting('book_advance_timeout');
         $this->set_user_data($view);
 
         $this->load->view('backend/header', $view);
@@ -406,7 +544,8 @@ class Backend extends CI_Controller {
     * @param string dateFormat contains a date format as a string
     */
     private function format_date($dateString, $dateFormat) {
-
+    	date_default_timezone_set ( 'America/New_York' );
+    	 
         	
         switch($dateFormat) {
             case 'DMY':
