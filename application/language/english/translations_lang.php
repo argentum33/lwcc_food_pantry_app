@@ -23,6 +23,8 @@ $lang['notes'] = 'Notes';
 $lang['fields_are_required'] = 'Fields with * are required!';
 $lang['step_four_title'] = 'Confirm Appointment';
 
+
+// labels added for LWCC
 $lang['scheduled'] = 'Scheduled';
 $lang['missed'] = 'Missed';
 $lang['attended'] = 'Attended';
@@ -30,13 +32,16 @@ $lang['customer_status'] = 'Client Status';
 $lang['missed_appointments_limit'] = 'Missed Appointments Limit';
 $lang['app_probation'] = "Appointment Probation Period (Months)";
 $lang['missed_app_timeframe'] = "Missed Appointments Time Frame (Months)";
+$lang['num_missed_apps'] = "Number of Missed Appointments";
 $lang['unlock_date'] = 'Probation End Date';
 $lang['locked'] = 'Locked';
 $lang['unlocked'] = 'Unlocked';
 $lang['locked_message'] = 'This client has missed more than 3 appointments!';
-
+$lang['family_num'] = 'Number of Family Members';
 $lang['locked_message1'] = 'This client has missed ';
 $lang['locked_message2'] = ' appointments!';
+$lang['duplicate_customer'] = 'Client not saved. There is already a customer with this address!';
+$lang['appointment_length'] = 'Appointment Length (Minutes)';
 
 
 $lang['confirm'] = 'Confirm';
